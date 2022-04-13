@@ -1,5 +1,5 @@
 const express = require("express");
-const router = require express.Router();
+const router = express.Router();
 
 const profilControllers = require("../controllers/profil");
 
@@ -7,9 +7,10 @@ router.post("/signup", profilControllers.signup);
 
 router.post("/login", profilControllers.login);
 
-router.get("/id", profilControllers.readProfil);
+router.get("/profil", profilControllers.readProfil);
 
-router.delete("/id", profilControllers.deleteProfil);
+//router.delete("/profil/id", profilControllers.deleteProfil);
 
-router.update("/id", profilControllers.modifyProfil);
+//router.update("/profil/id", profilControllers.modifyProfil);
 
+module.exports = router;

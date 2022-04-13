@@ -1,28 +1,26 @@
 //importations
 const express = require("express");
 
-const dotenv = require("dotenv");
-dotenv.config();
-//const helmet = require("helmet");
+const helmet = require("helmet");
 
 //accéder au path pour les images
 const path = require("path");
 
 //importation fichier database pour connexion à mySQL
-//const database = require("./db/database");
+const dbconnection = require("./db/db.js");
 
 const app = express();
 //faire les requetes au format json-(bodyparser inclus dans la version de express)
 app.use(express.json());
 
 //utiliser helmet pour protéger les requetes
-//app.use(helmet());
+app.use(helmet());
 
 //importation des routes
 const profilRoutes = require("./routes/profil");
-const publicationRoutes = require("./routes/publication");
-const likeRoutes = require("./routes/like");
-const commentRoutes = require("./routes/comment");
+//const publicationRoutes = require("./routes/publication");
+//const likeRoutes = require("./routes/like");
+//const commentRoutes = require("./routes/comment");
 
 //gérer les problèmes de CORS (cross origin request sharing)
 app.use((req, res, next) => {
@@ -40,11 +38,11 @@ app.use((req, res, next) => {
 });
 
 //route authentification signup et login et CRUD du profil
-app.use("/api/auth", profilRoutes);
+app.use("/api", profilRoutes);
 
 //routes publication
 
-app.use("/api/publication", publicationRoutes);
+//app.use("/api/publication", publicationRoutes);
 
 //routes commentaires
 
