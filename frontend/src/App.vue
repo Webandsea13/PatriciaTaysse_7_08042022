@@ -1,15 +1,10 @@
 <template>
-	<LoginPage />
+	<router-view></router-view>
 </template>
 
 <script>
-import LoginPage from "./views/Login.vue";
-
 export default {
 	name: "App",
-	components: {
-		LoginPage,
-	},
 };
 </script>
 

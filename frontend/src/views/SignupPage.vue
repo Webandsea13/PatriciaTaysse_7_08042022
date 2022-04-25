@@ -4,7 +4,7 @@
 			<div class="register-header__logo">
 				<img
 					id="logo-register"
-					src="./images/icon-left-font-monochrome-black.png"
+					src="../assets/icon-left-font-monochrome-black.png"
 				/>
 			</div>
 			<div class="register-header__title">
@@ -42,12 +42,16 @@
 			<button type="submit" class="submit-btn" v-on:click="signup()">
 				<span>S'inscrire</span>
 			</button>
-			<a href="">Déjà inscrit ? Connectez-vous !</a>
+			<router-link to="/login"
+				>Déjà inscrit ? Connectez-vous !</router-link
+			>
 		</div>
 	</div>
 </template>
 
 <script>
+import { signup } from "../api/profil";
+
 export default {
 	name: "SignupPage",
 	data() {
@@ -57,23 +61,11 @@ export default {
 	},
 	methods: {
 		async signup() {
-			console.log("cliqué");
-			console.log(this.profil);
 			try {
-				const response = await fetch(
-					"http://localhost:3000/api/signup",
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							accept: "application/json",
-						},
-						body: JSON.stringify(this.profil),
-					}
-				);
-				const jsonResponse = await response.json();
+				const jsonResponse = await signup(this.profil);
 				console.log(jsonResponse);
-				console.log("profil créé");
+				localStorage.setItem("user", JSON.stringify(jsonResponse));
+				this.$router.push("/publications");
 			} catch (error) {
 				console.log(error);
 			}

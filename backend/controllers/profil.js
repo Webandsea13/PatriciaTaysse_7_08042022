@@ -24,8 +24,28 @@ exports.signup = (req, res) => {
 				message: "Impossible de créer le profil.",
 			});
 		} else {
-			console.log(results);
-			res.status(201).json({ message: "profil créé" });
+			dbconnection.query(
+				`SELECT * FROM profil WHERE email=?`,
+				profil.email,
+				(error, results) => {
+					if (error) {
+						res.status(500).json({
+							error: error,
+							message: "accès db impossible",
+						});
+					} else {
+						const token = jwt.sign(
+							{ profilID: results[0].id },
+							"JWT_SECRET_KEY",
+							{ expiresIn: "12h" }
+						);
+						res.status(201).json({
+							profilID: results[0].id,
+							token,
+						});
+					}
+				}
+			);
 		}
 	});
 };

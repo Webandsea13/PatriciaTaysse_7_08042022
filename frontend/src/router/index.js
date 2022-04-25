@@ -1,30 +1,60 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Login from "../views/Login";
-import Signup from "../views/Signup";
+import Login from "../views/LoginPage";
+import Signup from "../views/SignupPage";
+import Publications from "../views/PublicationsPage";
 
-import Publications from "../views/Publications";
+/**
+
+Méthode 1 :
+ /publications => liste des publications
+	<menu />
+	<afficher la liste des publications />
+	<footer />
+	
+ /profil => modification / view du profil
+	<menu />
+	<afficher un formulaire de modification du profil />
+	<footer />
+
+
+Méthode 2 :
+ /app => layout lorsqu'on est connecté
+	<menu />
+		/publications => liste des publications
+			<afficher la liste des publications />
+		/profil => modification / view du profil
+			<afficher un formulaire de modification du profil />
+	<footer />
+
+
+ */
 
 const routes = [
 	{
+		path: "/",
+		name: "Home",
+		redirect: "/login",
+	},
+	{
 		path: "/login",
-		name: "Login",
+		name: "LoginPage",
 		component: Login,
 	},
 	{
 		path: "/signup",
-		name: "Signup",
+		name: "SignupPage",
 		component: Signup,
 	},
-
 	{
-		path: "/home",
-		name: "Publications",
+		path: "/publications",
+		name: "PublicationsPage",
 		component: Publications,
 	},
 ];
 
 const router = createRouter({
+	history: createWebHistory(),
 	routes,
 });
 

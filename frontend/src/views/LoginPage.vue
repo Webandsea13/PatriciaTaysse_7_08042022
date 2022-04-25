@@ -35,11 +35,9 @@
 			<button type="submit" class="submit-btn" v-on:click="login()">
 				<span>Se connecter</span>
 			</button>
-			<router-link to="/signup"
-				><a href=""
-					>Pas encore inscrit ? Rejoignez Groupomania !</a
-				></router-link
-			>
+			<router-link to="/signup">
+				Pas encore inscrit ? Rejoignez Groupomania !
+			</router-link>
 		</div>
 	</div>
 </template>
@@ -54,8 +52,6 @@ export default {
 	},
 	methods: {
 		async login() {
-			console.log("cliqué");
-			console.log(this.profil);
 			try {
 				const response = await fetch(
 					"http://localhost:3000/api/login",
@@ -70,7 +66,10 @@ export default {
 				);
 				const jsonResponse = await response.json();
 				console.log(jsonResponse);
-				console.log("profil connecté");
+				localStorage.setItem("user", JSON.stringify(jsonResponse));
+
+				//window.location.href = "/publications";
+				this.$router.push("/publications");
 			} catch (error) {
 				console.log(error);
 			}
