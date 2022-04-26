@@ -18,7 +18,7 @@ app.use(helmet());
 
 //importation des routes
 const profilRoutes = require("./routes/profil");
-//const publicationRoutes = require("./routes/publication");
+const publicationRoutes = require("./routes/publication");
 //const likeRoutes = require("./routes/like");
 //const commentRoutes = require("./routes/comment");
 
@@ -42,7 +42,7 @@ app.use("/api", profilRoutes);
 
 //routes publication
 
-//app.use("/api/publication", publicationRoutes);
+app.use("/api/publication", publicationRoutes);
 
 //routes commentaires
 

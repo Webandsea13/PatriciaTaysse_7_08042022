@@ -7,7 +7,7 @@ router.post("/signup", profilControllers.signup);
 
 router.post("/login", profilControllers.login);
 
-router.get("/profil", profilControllers.readProfil);
+router.get("/profil", profilControllers.readAllProfil);
 
 //router.delete("/profil/id", profilControllers.deleteProfil);
 

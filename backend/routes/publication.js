@@ -1,9 +1,9 @@
-// const express = require("express");
-// const router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-// const publicationControllers = require("../controllers/publication");
+const publicationControllers = require("../controllers/publication");
 
-// router.post("/publication", publicationControllers.createPublication);
+router.post("/", publicationControllers.createPublication);
 
 // router.get("/publication", publicationControllers.readPublication);
 
@@ -11,4 +11,4 @@
 
 // router.update("/publication/id", publicationControllers.modifyPublication);
 
-// module.exports = router;
+module.exports = router;

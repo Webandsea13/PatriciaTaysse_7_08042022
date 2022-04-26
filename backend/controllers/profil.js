@@ -5,9 +5,18 @@ const jwt = require("jsonwebtoken");
 
 const dbconnection = require("../db/db");
 
-exports.readProfil = (req, res, next) => {
+exports.readAllProfil = (req, res, next) => {
 	console.log("requete get profils");
-	return res.status(200).json({ message: "Requete ok." });
+	dbconnection.query(`SELECT * FROM profil`, (error, results) => {
+		if (error) {
+			res.status(500).json({
+				message: "Impossible de récupérer les données.",
+				error: error,
+			});
+		} else {
+			res.status(200).json({ results });
+		}
+	});
 };
 
 exports.signup = (req, res) => {

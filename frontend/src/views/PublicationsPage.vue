@@ -2,10 +2,7 @@
 	<div class="background">
 		<div class="home-header">
 			<div class="home-header__logo">
-				<img
-					id="logo-home"
-					src="../assets/icon-left-font-monochrome-white.png"
-				/>
+				<img id="logo-home" src="../assets/icon-left-font.png" />
 			</div>
 			<nav>
 				<a href=""></a>
@@ -29,7 +26,7 @@
 							type="text"
 							class="input-url"
 							placeholder="Ajouter une image"
-							v-model="publication.url"
+							v-model="publication.image"
 						/>
 						<button
 							type="submit"
@@ -52,9 +49,33 @@
 export default {
 	name: "PublicationsPage",
 	data() {
-		return {};
+		return {
+			publication: { text: "", image: "", profil_id: "" },
+		};
 	},
-	methods: {},
+	methods: {
+		async newPublication() {
+			try {
+				const response = await fetch(
+					"http://localhost:3000/api/publication",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							accept: "application/json",
+						},
+						body: JSON.stringify(this.publication),
+					}
+				);
+				const jsonResponse = await response.json();
+				console.log(jsonResponse);
+
+				this.$router.push("/publications");
+			} catch (error) {
+				console.log(error);
+			}
+		},
+	},
 };
 </script>
 
@@ -62,12 +83,7 @@ export default {
 .background {
 	height: 100vh;
 	width: 100vw;
-
-	background-color: white;
-	background-image: url("../assets/icon.png");
-	background-attachment: fixed;
-	background-repeat: no-repeat;
-	background-position: center;
+	background-color: rgb(255, 215, 215);
 
 	display: flex;
 
@@ -76,10 +92,10 @@ export default {
 	font-family: "Oxygen", sans-serif;
 }
 .home-header {
-	background-color: rgb(255, 215, 215);
+	background-color: white;
 	height: 80px;
 	width: 100vw;
-	border-bottom: 1px solid black;
+
 	position: fixed;
 }
 
@@ -96,6 +112,7 @@ export default {
 }
 .publication {
 	border: 2px solid grey;
+	border-radius: 10px;
 	background-color: white;
 	padding: 20px;
 	margin: 10px;
