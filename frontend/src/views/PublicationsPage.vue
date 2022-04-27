@@ -10,6 +10,7 @@
 			</nav>
 		</div>
 		<div class="home-publication">
+			<h1>Bienvenue</h1>
 			<div class="new-publication publication">
 				<form class="input-publication">
 					<h2>Quoi de neuf ?</h2>
@@ -38,7 +39,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="all-publication publication">
+			<div class="publication">
 				<h2>Publications récentes</h2>
 			</div>
 		</div>
@@ -50,12 +51,30 @@ export default {
 	name: "PublicationsPage",
 	data() {
 		return {
+			publications: [],
 			publication: { text: "", image: "", profil_id: "" },
 		};
 	},
 	methods: {
+		async created() {
+			try {
+				const res = await fetch(
+					"http://localhost:3000/api/publication"
+				);
+				const jsonRes = await res.json();
+				console.log(jsonRes);
+				this.publications = jsonRes;
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
 		async newPublication() {
 			try {
+				const LS = localStorage.getItem("user");
+				const user = JSON.parse(LS);
+				console.log(user);
+				this.publication.profil_id = user.profilID;
 				const response = await fetch(
 					"http://localhost:3000/api/publication",
 					{
@@ -69,8 +88,6 @@ export default {
 				);
 				const jsonResponse = await response.json();
 				console.log(jsonResponse);
-
-				this.$router.push("/publications");
 			} catch (error) {
 				console.log(error);
 			}
@@ -111,11 +128,11 @@ export default {
 	top: 120px;
 }
 .publication {
-	border: 2px solid grey;
+	box-shadow: 3px 3px 10px grey;
 	border-radius: 10px;
 	background-color: white;
 	padding: 20px;
-	margin: 10px;
+	margin: 20px;
 }
 .input-text {
 	width: 600px;

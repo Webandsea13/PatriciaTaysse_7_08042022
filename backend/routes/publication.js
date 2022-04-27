@@ -5,7 +5,7 @@ const publicationControllers = require("../controllers/publication");
 
 router.post("/", publicationControllers.createPublication);
 
-// router.get("/publication", publicationControllers.readPublication);
+router.get("/", publicationControllers.readAllPublication);
 
 // router.delete("/publication/id", publicationControllers.deletePublication);
 
