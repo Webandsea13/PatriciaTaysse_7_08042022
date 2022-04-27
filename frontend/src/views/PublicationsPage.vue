@@ -51,11 +51,12 @@ export default {
 	name: "PublicationsPage",
 	data() {
 		return {
-			publications: [],
+			//publications: [],
 			publication: { text: "", image: "", profil_id: "" },
 		};
 	},
 	methods: {
+		//afficher toutes les publications à l 'ouverture de la page
 		async created() {
 			try {
 				const res = await fetch(
@@ -63,7 +64,7 @@ export default {
 				);
 				const jsonRes = await res.json();
 				console.log(jsonRes);
-				this.publications = jsonRes;
+				//this.publications = jsonRes;
 			} catch (error) {
 				console.log(error);
 			}
