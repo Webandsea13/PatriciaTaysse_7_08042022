@@ -9,8 +9,12 @@
 		</div>
 		<nav>
 			<router-link to="/login">
-				<a v-on:click="deconnect()" href="">Se déconnecter</a>
+				<a v-on:click="deconnect()">Se déconnecter</a>
 			</router-link>
+			<router-link to="/profil">
+				<a v-on:click="myProfil()">Voir mon profil</a>
+			</router-link>
+
 			<a href=""><font-awesome-icon icon="far fa-window-close" /></a>
 			<a href=""><i class="far fa-window-close"></i></a>
 			<i class="far fa-window-close"></i>
@@ -28,11 +32,14 @@
 <script>
 export default {
 	name: "HomeHeader",
-	data() {},
+	data() {
+		return {};
+	},
 	methods: {
 		deconnect() {
 			this.$router.push("/login");
 		},
+		myProfil() {},
 	},
 };
 </script>

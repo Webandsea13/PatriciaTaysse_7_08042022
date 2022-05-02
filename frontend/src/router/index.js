@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/LoginPage";
 import Signup from "../views/SignupPage";
 import Publications from "../views/PublicationsPage";
+import Profil from "../views/ProfilPage";
 
 /**
 
@@ -50,6 +51,11 @@ const routes = [
 		path: "/publications",
 		name: "PublicationsPage",
 		component: Publications,
+	},
+	{
+		path: "/profil",
+		name: "ProfilPage",
+		component: Profil,
 	},
 ];
 

@@ -1,10 +1,17 @@
 const dbconnection = require("../db/db");
 
 exports.createPublication = (req, res) => {
+	console.log("req.body", req.body);
+	console.log("req.file", req.file);
+
+	const publication = JSON.parse(req.body.publication);
+
 	const newPublication = {
-		text: req.body.text,
-		image: req.body.image,
-		profil_id: req.body.profil_id,
+		text: publication.text,
+		image: req.file
+			? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+			: null,
+		profil_id: publication.profil_id,
 	};
 	console.log(newPublication);
 	//enregistrer le nouveau profil dans la db
@@ -25,6 +32,7 @@ exports.createPublication = (req, res) => {
 };
 
 exports.readAllPublication = (req, res) => {
+	console.log("READ ALL PUBLICATION");
 	dbconnection.query(`SELECT * FROM publication`, (error, results) => {
 		if (error) {
 			res.status(500).json({
