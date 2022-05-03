@@ -9,6 +9,8 @@ router.post("/login", profilControllers.login);
 
 router.get("/profil", profilControllers.readAllProfil);
 
+router.get("/profil/:id", profilControllers.readOneProfil);
+
 //router.delete("/profil/id", profilControllers.deleteProfil);
 
 //router.update("/profil/id", profilControllers.modifyProfil);

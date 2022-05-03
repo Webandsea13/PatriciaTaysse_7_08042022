@@ -11,6 +11,9 @@
 			<router-link to="/login">
 				<a v-on:click="deconnect()">Se déconnecter</a>
 			</router-link>
+			<router-link to="/publications">
+				<a v-on:click="goHome()">Home</a>
+			</router-link>
 			<router-link to="/profil">
 				<a v-on:click="myProfil()">Voir mon profil</a>
 			</router-link>
@@ -32,6 +35,9 @@ export default {
 			this.$router.push("/login");
 		},
 		myProfil() {},
+		goHome() {
+			this.$router.push("/publications");
+		},
 	},
 };
 </script>

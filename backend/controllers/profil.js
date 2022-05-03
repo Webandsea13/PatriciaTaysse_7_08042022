@@ -15,8 +15,28 @@ exports.readAllProfil = (req, res, next) => {
 			});
 		} else {
 			res.status(200).json({ results });
+			console.log(results);
 		}
 	});
+};
+
+exports.readOneProfil = (req, res, next) => {
+	console.log("requete get OneProfil");
+	dbconnection.query(
+		`SELECT * FROM profil WHERE id=?`,
+		req.params.id,
+		(error, results) => {
+			if (error) {
+				res.status(500).json({
+					message: "Impossible de récupérer les données.",
+					error: error,
+				});
+			} else {
+				res.status(200).json({ results });
+				console.log(results);
+			}
+		}
+	);
 };
 
 exports.signup = (req, res) => {
