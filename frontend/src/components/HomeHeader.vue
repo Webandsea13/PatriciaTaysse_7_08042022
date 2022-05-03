@@ -14,17 +14,9 @@
 			<router-link to="/profil">
 				<a v-on:click="myProfil()">Voir mon profil</a>
 			</router-link>
-
-			<a href=""><font-awesome-icon icon="far fa-window-close" /></a>
-			<a href=""><i class="far fa-window-close"></i></a>
-			<i class="far fa-window-close"></i>
-			<i class="fas fa-user-circle"></i>
-			<font-awesome-icon icon="fas fa-user-circle" />
-			<i class="fa-solid fa-user"></i>
-			<font-awesome-icon icon="fa-solid fa-user" />
-			<font-awesome-icon icon="fa-solid fa-user" />
-			<font-awesome-icon icon="fas fa-user" />
-			<i class="fas fa-robot"></i>
+			<router-link to="/users">
+				<a v-on:click="viewUsers()">Voir les autres utilisateurs</a>
+			</router-link>
 		</nav>
 	</div>
 </template>
@@ -51,6 +43,7 @@ export default {
 	width: 100vw;
 	display: flex;
 	position: fixed;
+	z-index: 5;
 }
 
 #home-logo {

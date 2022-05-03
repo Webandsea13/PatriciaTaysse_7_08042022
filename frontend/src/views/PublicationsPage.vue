@@ -36,17 +36,15 @@
 			</div>
 			<div class="container">
 				<h2>Publications récentes</h2>
-				<div v-for="item in publications" v-bind:key="item.id">
-					<img
-						v-if="item.image"
-						v-bind:src="item.image"
-						alt=""
-						width="400"
-						height="200"
-					/>
-					<p>{{ new Date(item.time).toLocaleString() }}</p>
-					<p>publié par {{ item.profil_id }}</p>
-					<p>{{ item.text }}</p>
+				<div
+					v-for="item in publications"
+					v-bind:key="item.id"
+					class="publication"
+				>
+					<p>Publié par {{ item.name }}</p>
+					<p>le {{ new Date(item.time).toLocaleString() }}</p>
+					<h3>{{ item.text }}</h3>
+					<img v-if="item.image" v-bind:src="item.image" alt="" />
 				</div>
 			</div>
 		</div>
@@ -56,7 +54,7 @@
 <script>
 import HomeHeader from "../components/HomeHeader";
 
-import { getAllPublications } from "../api/publication";
+import { fetchAllPublications } from "../api/publication";
 
 export default {
 	name: "PublicationsPage",
@@ -71,12 +69,12 @@ export default {
 
 	//afficher toutes les publications à l 'ouverture de la page
 	async created() {
-		await this.fetchAllPublications();
+		await this.getAllPublications();
 	},
 	methods: {
-		async fetchAllPublications() {
+		async getAllPublications() {
 			try {
-				this.publications = await getAllPublications();
+				this.publications = await fetchAllPublications();
 			} catch (error) {
 				console.log(error);
 			}
@@ -85,6 +83,7 @@ export default {
 		//récupérer url image
 		getURL(e) {
 			this.publication.image = e.target.files[0];
+			console.log("RECUPERATION URL IMAGE");
 			console.log(this.publication.image);
 		},
 
@@ -92,13 +91,13 @@ export default {
 			try {
 				const LS = localStorage.getItem("user");
 				const user = JSON.parse(LS);
-				console.log(user);
+				//console.log(user);
 
 				const publicationToSend = {
 					text: this.publication.text,
 					profil_id: user.profilID,
 				};
-
+				console.log("PUBLICATION TO SEND");
 				console.log(publicationToSend);
 
 				let spublication = JSON.stringify(publicationToSend);
@@ -117,9 +116,11 @@ export default {
 					}
 				);
 				const jsonResponse = await response.json();
+				console.log("RESPONSE FETCH POST");
 				console.log(jsonResponse);
 
-				await this.fetchAllPublications();
+				//réafficher les publications avec la newPublication
+				await this.getAllPublications();
 			} catch (error) {
 				console.log(error);
 			}
@@ -147,5 +148,17 @@ export default {
 	font-family: "Oxygen", sans-serif;
 	resize: none;
 	background-color: #fff9f8;
+}
+.publication {
+	padding: 20px 10px;
+	border-bottom: 8px solid rgb(255, 215, 215);
+}
+h3 {
+	margin: 10px 0px;
+}
+.publication img {
+	width: 400px;
+	height: 250px;
+	object-fit: cover;
 }
 </style>

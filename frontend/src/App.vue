@@ -17,10 +17,12 @@ export default {
 	box-sizing: border-box;
 	font-family: "Oxygen", sans-serif;
 }
-.background {
-	height: 100vh;
-	width: 100vw;
+body {
 	background-color: rgb(255, 215, 215);
+}
+.background {
+	width: 100vw;
+
 	display: flex;
 	align-items: center;
 	flex-direction: column;
