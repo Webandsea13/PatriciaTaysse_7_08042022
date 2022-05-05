@@ -98,6 +98,33 @@ a:hover {
 a:visited {
 	text-decoration: none;
 }
+
+.home-section {
+	width: 700px;
+	position: relative;
+	top: 120px;
+}
+.container {
+	box-shadow: 3px 3px 10px grey;
+	border-radius: 10px;
+	background-color: white;
+	padding: 20px;
+	margin: 20px;
+}
+
+.publication {
+	padding: 20px 10px;
+	border-bottom: 8px solid rgb(255, 215, 215);
+}
+h3 {
+	margin: 10px 0px;
+}
+.publication img {
+	width: 400px;
+	height: 250px;
+	object-fit: cover;
+}
+
 @media screen and (max-width: 767px) {
 	.background {
 		font-size: 12px;

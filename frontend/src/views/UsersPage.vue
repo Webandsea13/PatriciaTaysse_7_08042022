@@ -5,7 +5,7 @@
 			<h2>Tous les utilisateurs</h2>
 			<div class="container">
 				<div v-for="item in users" v-bind:key="item.id" class="user">
-					<router-link to="/profil/?id=item.id"
+					<router-link :to="'/profil/' + item.id"
 						><p>{{ item.name }}</p></router-link
 					>
 					<p>
@@ -59,18 +59,6 @@ export default {
 </script>
 
 <style>
-.home-section {
-	width: 700px;
-	position: relative;
-	top: 120px;
-}
-.container {
-	box-shadow: 3px 3px 10px grey;
-	border-radius: 10px;
-	background-color: white;
-	padding: 20px;
-	margin: 20px;
-}
 .user {
 	padding: 20px 0px;
 	border-bottom: 2px solid rgb(255, 215, 215);

@@ -10,6 +10,8 @@ router.post("/", multer, publicationControllers.createPublication);
 
 router.get("/", publicationControllers.readAllPublication);
 
+router.get("/:id", publicationControllers.readProfilPublication);
+
 // router.delete("/publication/id", publicationControllers.deletePublication);
 
 // router.update("/publication/id", publicationControllers.modifyPublication);

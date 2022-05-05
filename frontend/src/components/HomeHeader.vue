@@ -14,7 +14,7 @@
 			<router-link to="/publications">
 				<a v-on:click="goHome()">Home</a>
 			</router-link>
-			<router-link to="/profil">
+			<router-link :to="'/profil/' + profil_id">
 				<a v-on:click="myProfil()">Voir mon profil</a>
 			</router-link>
 			<router-link to="/users">
@@ -28,15 +28,28 @@
 export default {
 	name: "HomeHeader",
 	data() {
-		return {};
+		return {
+			profil_id: "",
+		};
 	},
 	methods: {
 		deconnect() {
 			this.$router.push("/login");
 		},
-		myProfil() {},
+		myProfil() {
+			//recupérer id depuis local storage
+			const LS = localStorage.getItem("user");
+			const user = JSON.parse(LS);
+			console.log("verification userid");
+			console.log(user.profilID);
+			this.profil_id = user.profilID;
+			this.$router.push("/profil/" + this.profil_id);
+		},
 		goHome() {
 			this.$router.push("/publications");
+		},
+		viewUsers() {
+			this.$router.push("/users");
 		},
 	},
 };
@@ -45,11 +58,12 @@ export default {
 <style>
 .home-header {
 	background-color: white;
-	height: 80px;
+
 	width: 100vw;
 	display: flex;
 	position: fixed;
 	z-index: 5;
+	padding: 10px 10px;
 }
 
 #home-logo {

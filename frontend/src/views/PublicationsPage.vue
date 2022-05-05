@@ -41,7 +41,12 @@
 					v-bind:key="item.id"
 					class="publication"
 				>
-					<p>Publié par {{ item.name }}</p>
+					<p>
+						Publié par
+						<router-link :to="'/profil/' + item.id"
+							>{{ item.name }}
+						</router-link>
+					</p>
 					<p>le {{ new Date(item.time).toLocaleString() }}</p>
 					<h3>{{ item.text }}</h3>
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
@@ -130,35 +135,11 @@ export default {
 </script>
 
 <style scoped>
-.home-section {
-	width: 700px;
-	position: relative;
-	top: 120px;
-}
-.container {
-	box-shadow: 3px 3px 10px grey;
-	border-radius: 10px;
-	background-color: white;
-	padding: 20px;
-	margin: 20px;
-}
 .new-publication-input {
 	width: 600px;
 	height: 100px;
 	font-family: "Oxygen", sans-serif;
 	resize: none;
 	background-color: #fff9f8;
-}
-.publication {
-	padding: 20px 10px;
-	border-bottom: 8px solid rgb(255, 215, 215);
-}
-h3 {
-	margin: 10px 0px;
-}
-.publication img {
-	width: 400px;
-	height: 250px;
-	object-fit: cover;
 }
 </style>

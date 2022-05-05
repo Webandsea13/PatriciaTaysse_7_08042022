@@ -54,7 +54,7 @@ const routes = [
 		component: Publications,
 	},
 	{
-		path: "/profil",
+		path: "/profil/:id",
 		name: "ProfilPage",
 		component: Profil,
 	},
