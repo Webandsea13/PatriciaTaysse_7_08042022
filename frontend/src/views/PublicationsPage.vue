@@ -64,8 +64,8 @@
 
 					<h3>{{ item.text }}</h3>
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
-					<!--
-					<div class="profil action" v-if="(item.id = user.profilID)">
+
+					<div class="profil action" v-if="item.id == profilID">
 						<a
 							><i class="fas fa-edit"></i>Modifier ma
 							publication</a
@@ -74,7 +74,7 @@
 							><i class="fas fa-trash-alt"></i>Supprimer ma
 							publication</a
 						>
-					</div>-->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -93,6 +93,7 @@ export default {
 			publications: [],
 			publication: { text: "", image: "", profil_id: "" },
 			spublication: "",
+			profilID: "",
 		};
 	},
 	components: { HomeHeader },
@@ -105,6 +106,9 @@ export default {
 		async getAllPublications() {
 			try {
 				this.publications = await fetchAllPublications();
+				const LS = localStorage.getItem("user");
+				const user = JSON.parse(LS);
+				this.profilID = user.profilID;
 			} catch (error) {
 				console.log(error);
 			}

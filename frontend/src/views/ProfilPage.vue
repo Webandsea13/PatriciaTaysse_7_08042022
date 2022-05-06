@@ -2,7 +2,7 @@
 	<div class="background">
 		<HomeHeader></HomeHeader>
 		<div class="home-section">
-			<h2>Mon profil</h2>
+			<h2>Profil</h2>
 
 			<div class="container">
 				<div class="profil">
@@ -24,13 +24,13 @@
 						</p>
 					</div>
 				</div>
-				<div class="profil action">
+				<div class="profil action" v-if="profilID == profil[0].id">
 					<a><i class="fas fa-edit"></i>Modifier mon profil</a>
 					<a><i class="fas fa-trash-alt"></i>Supprimer mon profil</a>
 				</div>
 			</div>
 
-			<h2>Mes publications</h2>
+			<h2>Publications</h2>
 			<div class="container">
 				<div
 					v-for="item in profilPublications"
@@ -41,7 +41,10 @@
 					<p>le {{ new Date(item.time).toLocaleString() }}</p>
 					<h3>{{ item.text }}</h3>
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
-					<div class="profil action">
+					<div
+						class="profil action"
+						v-if="profilID == item.profil_id"
+					>
 						<a
 							><i class="fas fa-edit"></i>Modifier ma
 							publication</a
@@ -67,9 +70,10 @@ export default {
 			profil: [],
 			profilPublications: [],
 			profilID: "",
+			profilIDUrl: "",
 		};
 	},
-	//afficher les profils au chargement de la page
+	//afficher le profil et ses publications au chargement de la page
 	async created() {
 		await this.getProfil();
 		await this.getProfilPublications();
@@ -77,12 +81,12 @@ export default {
 	methods: {
 		async getProfil() {
 			try {
-				this.profilID = this.$route.params.id;
+				this.profilIDUrl = this.$route.params.id;
 				console.log(" verification recupération id dans url");
-				console.log(this.profilID);
+				console.log(this.profilIDUrl);
 
 				const res = await fetch(
-					"http://localhost:3000/api/profil/" + this.profilID
+					"http://localhost:3000/api/profil/" + this.profilIDUrl
 				);
 				const jsonRes = await res.json();
 				console.log("JSON RES DU FETCH getProfil");
@@ -95,11 +99,11 @@ export default {
 
 		async getProfilPublications() {
 			try {
-				//const LS = localStorage.getItem("user");
-				//const user = JSON.parse(LS);
-				//this.profilID = user.profilID;
+				const LS = localStorage.getItem("user");
+				const user = JSON.parse(LS);
+				this.profilID = user.profilID;
 				const res = await fetch(
-					"http://localhost:3000/api/publication/" + this.profilID
+					"http://localhost:3000/api/publication/" + this.profilIDUrl
 				);
 				const jsonRes = await res.json();
 				console.log("JSON RES DU FETCH getProfilPublication");
