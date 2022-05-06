@@ -3,20 +3,30 @@
 		<HomeHeader></HomeHeader>
 		<div class="home-section">
 			<h2>Mon profil</h2>
-			<div class="container profil">
-				<img
-					v-if="profil[0].imageProfil"
-					v-bind:src="profil[0].imageProfil"
-					alt=""
-					class="imgProfil"
-				/>
-				<div>
-					<p>Nom : {{ profil[0].name }}</p>
-					<p>Email : {{ profil[0].email }}</p>
-					<p>
-						Inscrit depuis le :
-						{{ new Date(profil[0].time).toLocaleString() }}
-					</p>
+
+			<div class="container">
+				<div class="profil">
+					<img
+						v-if="profil[0].imageProfil"
+						v-bind:src="profil[0].imageProfil"
+						alt=""
+						class="imgProfil"
+					/>
+					<div v-else>
+						<i class="fas fa-user-circle fa-6x"></i>
+					</div>
+					<div>
+						<p>Nom : {{ profil[0].name }}</p>
+						<p>Email : {{ profil[0].email }}</p>
+						<p>
+							Inscrit depuis le :
+							{{ new Date(profil[0].time).toLocaleString() }}
+						</p>
+					</div>
+				</div>
+				<div class="profil action">
+					<a><i class="fas fa-edit"></i>Modifier mon profil</a>
+					<a><i class="fas fa-trash-alt"></i>Supprimer mon profil</a>
 				</div>
 			</div>
 
@@ -31,6 +41,16 @@
 					<p>le {{ new Date(item.time).toLocaleString() }}</p>
 					<h3>{{ item.text }}</h3>
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
+					<div class="profil action">
+						<a
+							><i class="fas fa-edit"></i>Modifier ma
+							publication</a
+						>
+						<a
+							><i class="fas fa-trash-alt"></i>Supprimer ma
+							publication</a
+						>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -46,7 +66,7 @@ export default {
 		return {
 			profil: [],
 			profilPublications: [],
-			profil_id: "",
+			profilID: "",
 		};
 	},
 	//afficher les profils au chargement de la page
@@ -57,12 +77,12 @@ export default {
 	methods: {
 		async getProfil() {
 			try {
-				this.profil_id = this.$route.params.id;
+				this.profilID = this.$route.params.id;
 				console.log(" verification recupération id dans url");
-				console.log(this.profil_id);
+				console.log(this.profilID);
 
 				const res = await fetch(
-					"http://localhost:3000/api/profil/" + this.profil_id
+					"http://localhost:3000/api/profil/" + this.profilID
 				);
 				const jsonRes = await res.json();
 				console.log("JSON RES DU FETCH getProfil");
@@ -77,9 +97,9 @@ export default {
 			try {
 				//const LS = localStorage.getItem("user");
 				//const user = JSON.parse(LS);
-				//this.profil_id = user.profilID;
+				//this.profilID = user.profilID;
 				const res = await fetch(
-					"http://localhost:3000/api/publication/" + this.profil_id
+					"http://localhost:3000/api/publication/" + this.profilID
 				);
 				const jsonRes = await res.json();
 				console.log("JSON RES DU FETCH getProfilPublication");
@@ -103,5 +123,11 @@ export default {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+}
+.action {
+	padding-top: 10px;
+}
+svg {
+	color: #e66465;
 }
 </style>

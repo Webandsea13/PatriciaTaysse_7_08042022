@@ -9,16 +9,22 @@
 		</div>
 		<nav>
 			<router-link to="/login">
-				<a v-on:click="deconnect()">Se déconnecter</a>
+				<a v-on:click="deconnect()"
+					><i class="fas fa-door-open"></i>Se déconnecter</a
+				>
 			</router-link>
 			<router-link to="/publications">
-				<a v-on:click="goHome()">Home</a>
+				<a v-on:click="goHome()"><i class="fas fa-home"></i>Accueil</a>
 			</router-link>
 			<router-link :to="'/profil/' + profil_id">
-				<a v-on:click="myProfil()">Voir mon profil</a>
+				<a v-on:click="myProfil()"
+					><i class="fas fa-user"></i>Voir mon profil</a
+				>
 			</router-link>
 			<router-link to="/users">
-				<a v-on:click="viewUsers()">Voir les autres utilisateurs</a>
+				<a v-on:click="viewUsers()"
+					><i class="fas fa-users"></i>Voir les autres utilisateurs</a
+				>
 			</router-link>
 		</nav>
 	</div>

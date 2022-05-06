@@ -41,15 +41,40 @@
 					v-bind:key="item.id"
 					class="publication"
 				>
-					<p>
-						Publié par
-						<router-link :to="'/profil/' + item.id"
-							>{{ item.name }}
-						</router-link>
-					</p>
-					<p>le {{ new Date(item.time).toLocaleString() }}</p>
+					<div class="publication-header">
+						<img
+							v-if="item.imageProfil"
+							v-bind:src="item.imageProfil"
+							alt=""
+							class="imgProfilMini"
+						/>
+						<div v-else>
+							<i class="fas fa-user-circle fa-2x"></i>
+						</div>
+						<div class="publication-header-text">
+							<p>
+								Publié par
+								<router-link :to="'/profil/' + item.id"
+									>{{ item.name }}
+								</router-link>
+							</p>
+							<p>le {{ new Date(item.time).toLocaleString() }}</p>
+						</div>
+					</div>
+
 					<h3>{{ item.text }}</h3>
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
+					<!--
+					<div class="profil action" v-if="(item.id = user.profilID)">
+						<a
+							><i class="fas fa-edit"></i>Modifier ma
+							publication</a
+						>
+						<a
+							><i class="fas fa-trash-alt"></i>Supprimer ma
+							publication</a
+						>
+					</div>-->
 				</div>
 			</div>
 		</div>
@@ -135,11 +160,23 @@ export default {
 </script>
 
 <style scoped>
+.publication-header {
+	display: flex;
+	align-items: center;
+}
+.publication-header-text {
+	margin-left: 10px;
+}
 .new-publication-input {
 	width: 600px;
 	height: 100px;
 	font-family: "Oxygen", sans-serif;
 	resize: none;
 	background-color: #fff9f8;
+}
+.imgProfilMini {
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
 }
 </style>

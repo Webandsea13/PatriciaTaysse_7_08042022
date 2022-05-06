@@ -48,6 +48,7 @@ body {
 
 	margin: 20px;
 	padding: 10px;
+	padding-bottom: 40px;
 	background: white;
 }
 
@@ -90,13 +91,13 @@ body {
 a {
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 40px;
 }
 a:hover {
 	color: #e66465;
 }
 a:visited {
 	text-decoration: none;
+	color: black;
 }
 
 .home-section {

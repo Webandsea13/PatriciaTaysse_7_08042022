@@ -5,21 +5,26 @@
 			<h2>Tous les utilisateurs</h2>
 			<div class="container">
 				<div v-for="item in users" v-bind:key="item.id" class="user">
-					<router-link :to="'/profil/' + item.id"
-						><p>{{ item.name }}</p></router-link
-					>
-					<p>
-						Inscrit depuis le
-						{{ new Date(item.time).toLocaleString() }}
-					</p>
-
-					<img
-						v-if="item.imageProfil"
-						v-bind:src="item.imageProfil"
-						alt=""
-						width="100"
-						height="100"
-					/>
+					<div class="profil">
+						<img
+							v-if="item.imageProfil"
+							v-bind:src="item.imageProfil"
+							alt=""
+							class="imgProfil"
+						/>
+						<div v-else>
+							<i class="fas fa-user-circle fa-6x"></i>
+						</div>
+						<div>
+							<router-link :to="'/profil/' + item.id"
+								><p>{{ item.name }}</p></router-link
+							>
+							<p>
+								Inscrit depuis le
+								{{ new Date(item.time).toLocaleString() }}
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
