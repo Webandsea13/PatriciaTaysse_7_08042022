@@ -70,11 +70,27 @@ export default {
 	position: fixed;
 	z-index: 5;
 	padding: 10px 10px;
+	justify-content: space-around;
+	align-items: center;
 }
 
 #home-logo {
 	height: 80px;
 	width: 400px;
 	object-fit: cover;
+}
+nav {
+	display: flex;
+	flex-direction: column;
+}
+@media screen and (max-width: 767px) {
+	#home-logo {
+		height: 60px;
+		width: 300px;
+		object-fit: cover;
+	}
+	.home-header {
+		flex-wrap: wrap;
+	}
 }
 </style>

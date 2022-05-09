@@ -91,6 +91,7 @@ body {
 a {
 	margin-left: auto;
 	margin-right: auto;
+	margin: 5px;
 }
 a:hover {
 	color: #e66465;
@@ -103,7 +104,7 @@ a:visited {
 .home-section {
 	width: 700px;
 	position: relative;
-	top: 120px;
+	top: 140px;
 }
 .container {
 	box-shadow: 3px 3px 10px grey;
@@ -121,8 +122,8 @@ h3 {
 	margin: 10px 0px;
 }
 .publication img {
-	width: 400px;
-	height: 250px;
+	width: 90%;
+	height: 35%;
 	object-fit: cover;
 }
 
@@ -142,6 +143,14 @@ h3 {
 	}
 	.register-input {
 		width: 80%;
+	}
+	.home-section {
+		width: 90vw;
+	}
+}
+@media screen and (max-width: 500px) {
+	.home-section {
+		top: 190px;
 	}
 }
 </style>

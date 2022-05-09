@@ -205,4 +205,10 @@ export default {
 svg {
 	color: #e66465;
 }
+@media screen and (max-width: 767px) {
+	.imgProfil {
+		width: 70px;
+		height: 70px;
+	}
+}
 </style>

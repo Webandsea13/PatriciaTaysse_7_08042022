@@ -208,7 +208,7 @@ export default {
 	margin-left: 10px;
 }
 .new-publication-input {
-	width: 600px;
+	width: 97%;
 	height: 100px;
 	font-family: "Oxygen", sans-serif;
 	resize: none;
@@ -218,5 +218,7 @@ export default {
 	width: 30px;
 	height: 30px;
 	border-radius: 30px;
+}
+@media screen and (max-width: 767px) {
 }
 </style>
