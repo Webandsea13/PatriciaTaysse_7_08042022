@@ -20,8 +20,8 @@ exports.readAllProfil = (req, res, next) => {
 	});
 };
 
-exports.readOneProfil = (req, res, next) => {
-	console.log("requete get OneProfil");
+exports.readOneProfil = (req, res) => {
+	console.log("controller requete get OneProfil");
 	dbconnection.query(
 		`SELECT * FROM profil WHERE id=?`,
 		req.params.id,
@@ -34,6 +34,23 @@ exports.readOneProfil = (req, res, next) => {
 			} else {
 				res.status(200).json({ results });
 				console.log(results);
+			}
+		}
+	);
+};
+
+exports.deleteProfil = (req, res) => {
+	dbconnection.query(
+		`DELETE  FROM profil WHERE id=?`,
+		req.params.id,
+		(error, results) => {
+			if (error) {
+				res.status(400).json({
+					message: "impossible de supprimer les données du profil.",
+					error: error,
+				});
+			} else {
+				res.status(200).json({ message: "Données profil effacées." });
 			}
 		}
 	);

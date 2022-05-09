@@ -65,13 +65,16 @@
 					<h3>{{ item.text }}</h3>
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
 
-					<div class="profil action" v-if="item.id == profilID">
+					<div
+						class="profil action"
+						v-if="item.id == profilID || isAdmin == 1"
+					>
 						<a
-							><i class="fas fa-edit"></i>Modifier ma
+							><i class="fas fa-edit"></i>Modifier la
 							publication</a
 						>
-						<a
-							><i class="fas fa-trash-alt"></i>Supprimer ma
+						<a v-on:click="deletePublication()"
+							><i class="fas fa-trash-alt"></i>Supprimer la
 							publication</a
 						>
 					</div>
@@ -95,6 +98,7 @@ export default {
 			spublication: "",
 			//dtoken: "",
 			profilID: "",
+			isAdmin: "",
 		};
 	},
 	components: { HomeHeader },
@@ -107,9 +111,12 @@ export default {
 		async getAllPublications() {
 			try {
 				this.publications = await fetchAllPublications();
+				console.log("PUBLICATIONS SUR PUBLICATIONSPAGE");
+				console.log(this.publications);
 				const LS = localStorage.getItem("user");
 				const user = JSON.parse(LS);
 				this.profilID = user.profilID;
+				this.isAdmin = user.isAdmin;
 			} catch (error) {
 				console.log(error);
 			}
@@ -155,6 +162,34 @@ export default {
 				console.log(jsonResponse);
 
 				//réafficher les publications avec la newPublication
+				await this.getAllPublications();
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		async deletePublication() {
+			try {
+				const LS = localStorage.getItem("token");
+				//console.log("TOKEN DU LOCAL STORAGE");
+				//console.log(LS);
+				const token = JSON.parse(LS);
+				//console.log(token);
+				const response = await fetch(
+					"http:localhost:3000/api/publication/id",
+					{
+						method: "DELETE",
+						headers: {
+							"content-type": "application/json",
+							Authorization: "Bearer " + token,
+						},
+					}
+				);
+
+				const jsonResponse = await response.json();
+				console.log("RESPONSE FETCH DELETE");
+				console.log(jsonResponse);
+
+				//réafficher les publications sans la pblication supprimée
 				await this.getAllPublications();
 			} catch (error) {
 				console.log(error);

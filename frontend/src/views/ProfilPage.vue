@@ -24,9 +24,14 @@
 						</p>
 					</div>
 				</div>
-				<div class="profil action" v-if="profilID == profil[0].id">
-					<a><i class="fas fa-edit"></i>Modifier mon profil</a>
-					<a><i class="fas fa-trash-alt"></i>Supprimer mon profil</a>
+				<div
+					class="profil action"
+					v-if="profilID == profil[0].id || isAdmin == 1"
+				>
+					<a><i class="fas fa-edit"></i>Modifier le profil</a>
+					<a v-on:click="deleteProfil()"
+						><i class="fas fa-trash-alt"></i>Supprimer le profil</a
+					>
 				</div>
 			</div>
 
@@ -43,14 +48,14 @@
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
 					<div
 						class="profil action"
-						v-if="profilID == item.profil_id"
+						v-if="profilID == item.profil_id || isAdmin == 1"
 					>
 						<a
-							><i class="fas fa-edit"></i>Modifier ma
+							><i class="fas fa-edit"></i>Modifier la
 							publication</a
 						>
-						<a
-							><i class="fas fa-trash-alt"></i>Supprimer ma
+						<a v-on:click="deletePublication(item.id)"
+							><i class="fas fa-trash-alt"></i>Supprimer la
 							publication</a
 						>
 					</div>
@@ -70,6 +75,7 @@ export default {
 			profil: [],
 			profilPublications: [],
 			profilID: "",
+			isAdmin: "",
 			profilIDUrl: "",
 		};
 	},
@@ -81,6 +87,12 @@ export default {
 	methods: {
 		async getProfil() {
 			try {
+				//recupération isAdmin dans token LS
+				const LS = localStorage.getItem("user");
+				const user = JSON.parse(LS);
+				this.profilID = user.profilID;
+				this.isAdmin = user.isAdmin;
+				//recupération id en paramètres url
 				this.profilIDUrl = this.$route.params.id;
 				console.log(" verification recupération id dans url");
 				console.log(this.profilIDUrl);
@@ -109,6 +121,65 @@ export default {
 				console.log("JSON RES DU FETCH getProfilPublication");
 				console.log(jsonRes);
 				this.profilPublications = jsonRes.results;
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		async deleteProfil() {
+			try {
+				const LS = localStorage.getItem("token");
+
+				const token = JSON.parse(LS);
+
+				const response = await fetch(
+					"http:localhost:3000/api/publication/" + this.profil[0].id,
+					{
+						method: "DELETE",
+						headers: {
+							"content-type": "application/json",
+							Authorization: "Bearer " + token,
+						},
+					}
+				);
+
+				const jsonResponse = await response.json();
+				console.log("RESPONSE FETCH DELETE");
+				console.log(jsonResponse);
+				//retourner en page signup si profil supprimé par son auteur
+				//retourner en page d'accueil si profil supprimé par admin
+				if (this.isAdmin == 1) {
+					this.$router.push("/publications");
+				} else {
+					this.$router.push("/signup");
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		async deletePublication(id) {
+			try {
+				const LS = localStorage.getItem("token");
+				//console.log("TOKEN DU LOCAL STORAGE");
+				//console.log(LS);
+				const token = JSON.parse(LS);
+				//console.log(token);
+				const response = await fetch(
+					"http:localhost:3000/api/publication/" + id,
+					{
+						method: "DELETE",
+						headers: {
+							"content-type": "application/json",
+							Authorization: "Bearer " + token,
+						},
+					}
+				);
+
+				const jsonResponse = await response.json();
+				console.log("RESPONSE FETCH DELETE");
+				console.log(jsonResponse);
+
+				//réafficher les publications sans la pblication supprimée
+				await this.getProfilPublications();
 			} catch (error) {
 				console.log(error);
 			}

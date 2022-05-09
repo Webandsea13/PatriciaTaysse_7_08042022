@@ -33,7 +33,6 @@ exports.createPublication = (req, res) => {
 };
 
 exports.readAllPublication = (req, res) => {
-	console.log("READ ALL PUBLICATION RESULTS");
 	dbconnection.query(
 		`SELECT * FROM publication   JOIN profil ON publication.profil_id = profil.id  ORDER BY publication.id DESC`,
 		(error, results) => {
@@ -45,7 +44,6 @@ exports.readAllPublication = (req, res) => {
 			} else {
 				const dToken = req.dtoken;
 				res.status(200).json({ results: results, dToken: dToken });
-				console.log(res);
 			}
 		}
 	);
@@ -77,11 +75,13 @@ exports.deletePublication = (req, res) => {
 		(error, results) => {
 			if (error) {
 				res.status(400).json({
-					message: "impossible de supprimer les données.",
+					message: "impossible de supprimer les données publication.",
 					error: error,
 				});
 			} else {
-				res.status(200).json({ message: "Données effacées." });
+				res.status(200).json({
+					message: "Données publication effacées.",
+				});
 			}
 		}
 	);
