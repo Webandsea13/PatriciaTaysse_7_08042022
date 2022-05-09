@@ -69,7 +69,9 @@ export default {
 			try {
 				const jsonResponse = await signup(this.profil);
 				console.log(jsonResponse);
+				const token = jsonResponse.token;
 				localStorage.setItem("user", JSON.stringify(jsonResponse));
+				localStorage.setItem("token", JSON.stringify(token));
 				this.$router.push("/publications");
 			} catch (error) {
 				console.log(error);

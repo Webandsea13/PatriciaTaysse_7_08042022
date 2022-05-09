@@ -93,6 +93,7 @@ export default {
 			publications: [],
 			publication: { text: "", image: "", profil_id: "" },
 			spublication: "",
+			//dtoken: "",
 			profilID: "",
 		};
 	},

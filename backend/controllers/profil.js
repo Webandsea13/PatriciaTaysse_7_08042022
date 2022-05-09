@@ -64,13 +64,17 @@ exports.signup = (req, res) => {
 						});
 					} else {
 						const token = jwt.sign(
-							{ profilID: results[0].id },
-							"JWT_SECRET_KEY",
+							{
+								profilID: results[0].id,
+								isAdmin: results[0].isAdmin,
+							},
+							process.env.JWT_KEY,
 							{ expiresIn: "12h" }
 						);
 						res.status(201).json({
+							token: token,
 							profilID: results[0].id,
-							token,
+							isAdmin: results[0].isAdmin,
 						});
 					}
 				}
@@ -114,12 +118,19 @@ exports.login = (req, res) => {
 				//comparaison  mot de passe DB et mot de passe login
 				if (results[0].password == req.body.password) {
 					const token = jwt.sign(
-						{ profilID: results[0].id },
-						"JWT_SECRET_KEY",
+						{
+							profilID: results[0].id,
+							isAdmin: results[0].isAdmin,
+						},
+						process.env.JWT_KEY,
 						{ expiresIn: "12h" }
 					);
 
-					res.status(200).json({ profilID: results[0].id, token });
+					res.status(200).json({
+						token: token,
+						profilID: results[0].id,
+						isAdmin: results[0].isAdmin,
+					});
 				} else {
 					res.status(401).json({ message: "mot de passe incorrect" });
 				}

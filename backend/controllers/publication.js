@@ -33,7 +33,7 @@ exports.createPublication = (req, res) => {
 };
 
 exports.readAllPublication = (req, res) => {
-	//console.log("READ ALL PUBLICATION RESULTS")
+	console.log("READ ALL PUBLICATION RESULTS");
 	dbconnection.query(
 		`SELECT * FROM publication   JOIN profil ON publication.profil_id = profil.id  ORDER BY publication.id DESC`,
 		(error, results) => {
@@ -43,8 +43,9 @@ exports.readAllPublication = (req, res) => {
 					error: error,
 				});
 			} else {
-				res.status(200).json({ results });
-				//console.log(results);
+				const dToken = req.dtoken;
+				res.status(200).json({ results: results, dToken: dToken });
+				console.log(res);
 			}
 		}
 	);
@@ -64,6 +65,23 @@ exports.readProfilPublication = (req, res) => {
 			} else {
 				res.status(200).json({ results });
 				console.log(results);
+			}
+		}
+	);
+};
+
+exports.deletePublication = (req, res) => {
+	dbconnection.query(
+		`DELETE  FROM publication WHERE id=?`,
+		req.params.id,
+		(error, results) => {
+			if (error) {
+				res.status(400).json({
+					message: "impossible de supprimer les données.",
+					error: error,
+				});
+			} else {
+				res.status(200).json({ message: "Données effacées." });
 			}
 		}
 	);

@@ -67,7 +67,9 @@ export default {
 				);
 				const jsonResponse = await response.json();
 				console.log(jsonResponse);
+				const token = jsonResponse.token;
 				localStorage.setItem("user", JSON.stringify(jsonResponse));
+				localStorage.setItem("token", JSON.stringify(token));
 
 				//window.location.href = "/publications";
 				this.$router.push("/publications");
