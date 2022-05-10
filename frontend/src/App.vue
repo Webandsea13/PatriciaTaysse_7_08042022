@@ -92,6 +92,8 @@ a {
 	margin-left: auto;
 	margin-right: auto;
 	margin: 5px;
+	text-decoration: none;
+	font-weight: bold;
 }
 a:hover {
 	color: #e66465;

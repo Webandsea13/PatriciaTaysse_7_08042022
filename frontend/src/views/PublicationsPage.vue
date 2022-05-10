@@ -175,7 +175,7 @@ export default {
 				const token = JSON.parse(LS);
 				//console.log(token);
 				const response = await fetch(
-					"http:localhost:3000/api/publication/id",
+					"http://localhost:3000/api/publication/id",
 					{
 						method: "DELETE",
 						headers: {

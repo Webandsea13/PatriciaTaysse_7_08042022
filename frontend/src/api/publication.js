@@ -7,9 +7,9 @@ export const fetchAllPublications = async function () {
 
 	const res = await fetch("http://localhost:3000/api/publication", {
 		headers: {
-			accept: "application/son",
+			accept: "application/json",
 			"content-type": "application/json",
-			Authorization: "Bearer" + token,
+			Authorization: "Bearer " + token,
 		},
 	});
 	const jsonRes = await res.json();

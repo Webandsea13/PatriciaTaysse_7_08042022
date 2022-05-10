@@ -132,7 +132,7 @@ export default {
 				const token = JSON.parse(LS);
 
 				const response = await fetch(
-					"http:localhost:3000/api/publication/" + this.profil[0].id,
+					"http://localhost:3000/api/profil/" + this.profil[0].id,
 					{
 						method: "DELETE",
 						headers: {
@@ -164,7 +164,7 @@ export default {
 				const token = JSON.parse(LS);
 				//console.log(token);
 				const response = await fetch(
-					"http:localhost:3000/api/publication/" + id,
+					"http://localhost:3000/api/publication/" + id,
 					{
 						method: "DELETE",
 						headers: {
