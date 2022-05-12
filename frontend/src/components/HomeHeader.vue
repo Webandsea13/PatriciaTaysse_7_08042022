@@ -8,23 +8,20 @@
 			/>
 		</div>
 		<nav>
-			<router-link to="/login">
-				<a v-on:click="deconnect()"
-					><i class="fas fa-door-open"></i>Se déconnecter</a
-				>
-			</router-link>
+			<a v-on:click="deconnect()">
+				<i class="fas fa-door-open"></i>Se déconnecter
+			</a>
 			<router-link to="/publications">
-				<a v-on:click="goHome()"><i class="fas fa-home"></i>Accueil</a>
+				<i class="fas fa-home"></i>
+				Accueil
 			</router-link>
-			<router-link :to="'/profil/' + profil_id">
-				<a v-on:click="myProfil()"
-					><i class="fas fa-user"></i>Voir mon profil</a
-				>
+			<router-link v-if="profil_id" :to="'/profil/' + profil_id">
+				<i class="fas fa-user"></i>
+				Voir mon profil
 			</router-link>
 			<router-link to="/users">
-				<a v-on:click="viewUsers()"
-					><i class="fas fa-users"></i>Voir les autres utilisateurs</a
-				>
+				<i class="fas fa-users"></i>
+				Voir les autres utilisateurs
 			</router-link>
 		</nav>
 	</div>
@@ -38,24 +35,18 @@ export default {
 			profil_id: "",
 		};
 	},
+	created() {
+		// recupérer id depuis local storage
+		const LS = localStorage.getItem("user");
+		const user = JSON.parse(LS);
+		console.log("recupértion userid dans LS");
+		console.log(user.profilID);
+
+		this.profil_id = user.profilID;
+	},
 	methods: {
 		deconnect() {
 			this.$router.push("/login");
-		},
-		myProfil() {
-			//recupérer id depuis local storage
-			const LS = localStorage.getItem("user");
-			const user = JSON.parse(LS);
-			console.log("verification userid");
-			console.log(user.profilID);
-			this.profil_id = user.profilID;
-			this.$router.push("/profil/" + this.profil_id);
-		},
-		goHome() {
-			this.$router.push("/publications");
-		},
-		viewUsers() {
-			this.$router.push("/users");
 		},
 	},
 };

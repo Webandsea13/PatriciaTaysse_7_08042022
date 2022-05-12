@@ -96,7 +96,7 @@ export default {
 			publications: [],
 			publication: { text: "", image: "", profil_id: "" },
 			spublication: "",
-			//dtoken: "",
+			user: "",
 			profilID: "",
 			isAdmin: "",
 		};
@@ -110,11 +110,15 @@ export default {
 	methods: {
 		async getAllPublications() {
 			try {
-				this.publications = await fetchAllPublications();
+				const fetch = await fetchAllPublications();
 				console.log("PUBLICATIONS SUR PUBLICATIONSPAGE");
+				this.publications = fetch.results;
 				console.log(this.publications);
-				const LS = localStorage.getItem("user");
-				const user = JSON.parse(LS);
+				console.log("TOKEN DECODE");
+				const user = fetch.dToken;
+				console.log(user);
+				//const LS = localStorage.getItem("user");
+				//const user = JSON.parse(LS);
 				this.profilID = user.profilID;
 				this.isAdmin = user.isAdmin;
 			} catch (error) {
@@ -134,7 +138,8 @@ export default {
 				const LS = localStorage.getItem("user");
 				const user = JSON.parse(LS);
 				//console.log(user);
-
+				const LStoken = localStorage.getItem("token");
+				const token = JSON.parse(LStoken);
 				const publicationToSend = {
 					text: this.publication.text,
 					profil_id: user.profilID,
@@ -153,8 +158,10 @@ export default {
 					"http://localhost:3000/api/publication",
 					{
 						method: "POST",
-
 						body: formData,
+						headers: {
+							Authorization: "Bearer " + token,
+						},
 					}
 				);
 				const jsonResponse = await response.json();

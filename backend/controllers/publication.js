@@ -1,4 +1,5 @@
 const dbconnection = require("../db/db");
+const fs = require("fs");
 
 exports.createPublication = (req, res) => {
 	console.log("req.body", req.body);
@@ -13,9 +14,10 @@ exports.createPublication = (req, res) => {
 			: null,
 		profil_id: publication.profil_id,
 	};
-	console.log("NEW PUBLICATION");
-	console.log(newPublication);
-	//enregistrer le nouveau profil dans la db
+	//console.log("NEW PUBLICATION");
+	//console.log(newPublication);
+
+	//enregistrer la nouvelle publication dans la db
 	dbconnection.query(
 		`INSERT INTO publication SET ?`,
 		newPublication,
@@ -34,55 +36,110 @@ exports.createPublication = (req, res) => {
 
 exports.readAllPublication = (req, res) => {
 	dbconnection.query(
-		`SELECT * FROM publication   JOIN profil ON publication.profil_id = profil.id  ORDER BY publication.id DESC`,
+		`
+		SELECT 
+			publication.id as publication_id, 
+			profil.id as profil_id
+
+		FROM publication
+		JOIN profil ON publication.profil_id = profil.id
+		ORDER BY publication.id DESC
+		`,
 		(error, results) => {
+			console.log(error);
+			console.log(results);
 			if (error) {
+				console.log(error);
 				res.status(500).json({
 					message: "Impossible de récupérer les données.",
 					error: error,
 				});
 			} else {
-				const dToken = req.dtoken;
+				const dToken = req.dToken;
+
+				console.log(results);
+				/*
+				[
+					{
+						text: "",
+						creation_date: "",
+						creator: {
+							id: ,
+							username: ,
+							avatar: ,
+
+						}
+					}
+				]
+				*/
+
 				res.status(200).json({ results: results, dToken: dToken });
 			}
 		}
 	);
 };
 
-exports.readProfilPublication = (req, res) => {
-	console.log("REQUETE PROFIL PUBLICATION");
-	dbconnection.query(
-		`SELECT * FROM publication   WHERE profil_id=?  ORDER BY publication.id DESC`,
-		req.params.id,
-		(error, results) => {
-			if (error) {
-				res.status(500).json({
-					message: "Impossible de récupérer les données.",
-					error: error,
-				});
-			} else {
-				res.status(200).json({ results });
-				console.log(results);
-			}
-		}
-	);
+exports.readProfilPublication = async (req, res) => {
+	//console.log("REQUETE PROFIL PUBLICATION");
+	try {
+		const results = await dbconnection
+			.promise()
+			.query(
+				`SELECT * FROM publication   WHERE profil_id=?  ORDER BY publication.id DESC`,
+				req.params.id
+			);
+		const data = results[0];
+		return res.status(200).json({ results: data });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: "Impossible de récupérer les données.",
+			error: error,
+		});
+	}
 };
 
-exports.deletePublication = (req, res) => {
-	dbconnection.query(
-		`DELETE  FROM publication WHERE id=?`,
-		req.params.id,
-		(error, results) => {
-			if (error) {
-				res.status(400).json({
-					message: "impossible de supprimer les données publication.",
-					error: error,
-				});
-			} else {
-				res.status(200).json({
-					message: "Données publication effacées.",
-				});
+exports.deletePublication = async (req, res) => {
+	try {
+		/*dbconnection.query(
+			`SELECT profil_id FROM publication WHERE id=?`,
+			req.params.id,
+			(error, results) => {
+				if (error) {
+					res.status(400).json({
+						message:
+							"impossible de trouver les données à supprimer.",
+						error: error,
+					});
+				} else {
+					await res.status(200).json({
+						results,
+					});
+					const data=results.json();
+					console.log(data);
+				}
 			}
-		}
-	);
+		);*/
+		dbconnection.query(
+			`DELETE  FROM publication WHERE id=?`,
+			req.params.id,
+			(error, results) => {
+				if (error) {
+					res.status(400).json({
+						message:
+							"impossible de supprimer les données publication.",
+						error: error,
+					});
+				} else {
+					res.status(200).json({
+						message: "Données publication effacées.",
+					});
+				}
+			}
+		);
+	} catch (error) {
+		return res
+			.status(500)
+			.json({ error: error, message: "action impossible" });
+	}
 };

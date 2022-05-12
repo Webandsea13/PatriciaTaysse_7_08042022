@@ -13,7 +13,6 @@ export const fetchAllPublications = async function () {
 		},
 	});
 	const jsonRes = await res.json();
-	console.log("JSON RES DU FETCH ALL PUBLICATIONS");
-	console.log(jsonRes);
-	return jsonRes.results;
+
+	return jsonRes;
 };

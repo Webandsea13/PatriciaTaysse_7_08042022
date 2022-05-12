@@ -23,12 +23,15 @@ const publicationRoutes = require("./routes/publication");
 //const commentRoutes = require("./routes/comment");
 
 //gérer les problèmes de CORS (cross origin request sharing)
+const cors = require("cors");
+//app.use(cors());
+
 app.use((req, res, next) => {
 	res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader(
 		"Access-Control-Allow-Headers",
-		"Origin, X-Requested-With, Content, Accept, Content-Type, Authorization "
+		"Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
 	);
 	res.setHeader(
 		"Access-Control-Allow-Methods",
@@ -53,7 +56,8 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 //gestion erreur globale
 app.use(function (err, req, res, next) {
-	res.status(500).send("Something broke!");
+	console.log(err);
+	res.status(500).json("Something broke!");
 });
 
 module.exports = app;

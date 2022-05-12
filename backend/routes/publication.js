@@ -14,7 +14,12 @@ router.get("/", authorize, publicationControllers.readAllPublication);
 
 router.get("/:id", publicationControllers.readProfilPublication);
 
-router.delete("/:id", publicationControllers.deletePublication);
+router.delete(
+	"/:id",
+
+	multer,
+	publicationControllers.deletePublication
+);
 
 // router.update("/publication/id", publicationControllers.modifyPublication);
 

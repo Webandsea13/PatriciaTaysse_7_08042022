@@ -32,7 +32,7 @@ exports.readOneProfil = (req, res) => {
 					error: error,
 				});
 			} else {
-				res.status(200).json({ results });
+				res.status(200).json(results[0]);
 				console.log(results);
 			}
 		}
