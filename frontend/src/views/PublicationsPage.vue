@@ -37,14 +37,14 @@
 			<div class="container">
 				<h2>Publications récentes</h2>
 				<div
-					v-for="item in publications"
+					v-for="item in datas"
 					v-bind:key="item.id"
 					class="publication"
 				>
 					<div class="publication-header">
 						<img
-							v-if="item.imageProfil"
-							v-bind:src="item.imageProfil"
+							v-if="item.avatar"
+							v-bind:src="item.avatar"
 							alt=""
 							class="imgProfilMini"
 						/>
@@ -54,20 +54,23 @@
 						<div class="publication-header-text">
 							<p>
 								Publié par
-								<router-link :to="'/profil/' + item.id"
-									>{{ item.name }}
+								<router-link :to="'/profil/' + item.creatorId"
+									>{{ item.creatorName }}
 								</router-link>
 							</p>
-							<p>le {{ new Date(item.time).toLocaleString() }}</p>
+							<p>
+								le
+								{{ new Date(item.createdAt).toLocaleString() }}
+							</p>
 						</div>
 					</div>
 
-					<h3>{{ item.text }}</h3>
-					<img v-if="item.image" v-bind:src="item.image" alt="" />
+					<h3>{{ item.content }}</h3>
+					<img v-if="item.picture" v-bind:src="item.picture" alt="" />
 
 					<div
 						class="profil action"
-						v-if="item.id == profilID || isAdmin == 1"
+						v-if="item.creatorId == profilID || isAdmin == 1"
 					>
 						<a
 							><i class="fas fa-edit"></i>Modifier la
@@ -93,7 +96,7 @@ export default {
 	name: "PublicationsPage",
 	data() {
 		return {
-			publications: [],
+			datas: [],
 			publication: { text: "", image: "", profil_id: "" },
 			spublication: "",
 			user: "",
@@ -112,8 +115,8 @@ export default {
 			try {
 				const fetch = await fetchAllPublications();
 				console.log("PUBLICATIONS SUR PUBLICATIONSPAGE");
-				this.publications = fetch.results;
-				console.log(this.publications);
+				this.datas = fetch.results;
+				console.log(this.datas);
 				console.log("TOKEN DECODE");
 				const user = fetch.dToken;
 				console.log(user);

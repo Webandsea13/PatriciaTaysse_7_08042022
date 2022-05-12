@@ -85,6 +85,7 @@ export default {
 		await this.getProfil(this.$route.params.id);
 		await this.getProfilPublications(this.$route.params.id);
 	},
+	//afficher mon profil après avoir visité un autre profil
 	async beforeRouteUpdate(to, from, next) {
 		console.log("to", to);
 		await this.getProfil(to.params.id);

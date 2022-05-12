@@ -38,16 +38,20 @@ exports.readAllPublication = (req, res) => {
 	dbconnection.query(
 		`
 		SELECT 
-			publication.id as publication_id, 
-			profil.id as profil_id
+			profil.id as creatorId,
+			profil.name as creatorName,
+			profil.isAdmin as isAdmin,
+			profil.imageProfil as avatar,
+			publication.id as publicationId,
+			publication.text as content,
+			publication.time as createdAt,
+			publication.image as picture
 
 		FROM publication
 		JOIN profil ON publication.profil_id = profil.id
 		ORDER BY publication.id DESC
 		`,
 		(error, results) => {
-			console.log(error);
-			console.log(results);
 			if (error) {
 				console.log(error);
 				res.status(500).json({
@@ -56,23 +60,6 @@ exports.readAllPublication = (req, res) => {
 				});
 			} else {
 				const dToken = req.dToken;
-
-				console.log(results);
-				/*
-				[
-					{
-						text: "",
-						creation_date: "",
-						creator: {
-							id: ,
-							username: ,
-							avatar: ,
-
-						}
-					}
-				]
-				*/
-
 				res.status(200).json({ results: results, dToken: dToken });
 			}
 		}
