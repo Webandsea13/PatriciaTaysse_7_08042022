@@ -29,3 +29,39 @@ export const fetchPostNewPublication = async function (data) {
 
 	return jsonResponse;
 };
+
+export const fetchDeletePublication = async function (id) {
+	const LS = localStorage.getItem("token");
+
+	const token = JSON.parse(LS);
+	const response = await fetch(
+		"http://localhost:3000/api/publication/" + id,
+		{
+			method: "DELETE",
+			headers: {
+				"content-type": "application/json",
+				Authorization: "Bearer " + token,
+			},
+		}
+	);
+
+	const jsonResponse = await response.json();
+	return jsonResponse;
+};
+
+export const fetchDeleteProfil = async function (id) {
+	const LS = localStorage.getItem("token");
+
+	const token = JSON.parse(LS);
+
+	const response = await fetch("http://localhost:3000/api/profil/" + id, {
+		method: "DELETE",
+		headers: {
+			"content-type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+	});
+
+	const jsonResponse = await response.json();
+	return jsonResponse;
+};

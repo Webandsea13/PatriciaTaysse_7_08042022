@@ -37,7 +37,6 @@
 
 			<h2>Publications</h2>
 			<div class="container">
-				{{ profilPublications }}
 				<div
 					v-for="item in profilPublications"
 					v-bind:key="item.id"
@@ -68,6 +67,9 @@
 
 <script>
 import HomeHeader from "../components/HomeHeader.vue";
+import { fetchDeletePublication } from "../api/publication";
+import { fetchDeleteProfil } from "../api/publication";
+
 export default {
 	name: "ProfilPage",
 	components: { HomeHeader },
@@ -149,24 +151,9 @@ export default {
 		},
 		async deleteProfil() {
 			try {
-				const LS = localStorage.getItem("token");
+				const fetch = await fetchDeleteProfil(this.profil.id);
+				console.log(fetch);
 
-				const token = JSON.parse(LS);
-
-				const response = await fetch(
-					"http://localhost:3000/api/profil/" + this.profil.id,
-					{
-						method: "DELETE",
-						headers: {
-							"content-type": "application/json",
-							Authorization: "Bearer " + token,
-						},
-					}
-				);
-
-				const jsonResponse = await response.json();
-				console.log("RESPONSE FETCH DELETE");
-				console.log(jsonResponse);
 				//retourner en page signup si profil supprimé par son auteur
 				//retourner en page d'accueil si profil supprimé par admin
 				if (this.isAdmin == 1) {
@@ -180,24 +167,9 @@ export default {
 		},
 		async deletePublication(id) {
 			try {
-				const LS = localStorage.getItem("token");
-
-				const token = JSON.parse(LS);
-
-				const response = await fetch(
-					"http://localhost:3000/api/publication/" + id,
-					{
-						method: "DELETE",
-						headers: {
-							"content-type": "application/json",
-							Authorization: "Bearer " + token,
-						},
-					}
-				);
-
-				const jsonResponse = await response.json();
+				const fetch = await fetchDeletePublication(id);
 				console.log("RESPONSE FETCH DELETE");
-				console.log(jsonResponse);
+				console.log(fetch);
 
 				//réafficher les publications sans la pblication supprimée
 				await this.getProfilPublications(this.$route.params.id);

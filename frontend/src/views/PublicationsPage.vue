@@ -92,6 +92,7 @@ import HomeHeader from "../components/HomeHeader";
 
 import { fetchAllPublications } from "../api/publication";
 import { fetchPostNewPublication } from "../api/publication";
+import { fetchDeletePublication } from "../api/publication";
 
 export default {
 	name: "PublicationsPage",
@@ -163,24 +164,9 @@ export default {
 
 		async deletePublication(id) {
 			try {
-				const LS = localStorage.getItem("token");
-
-				const token = JSON.parse(LS);
-
-				const response = await fetch(
-					"http://localhost:3000/api/publication/" + id,
-					{
-						method: "DELETE",
-						headers: {
-							"content-type": "application/json",
-							Authorization: "Bearer " + token,
-						},
-					}
-				);
-
-				const jsonResponse = await response.json();
+				const fetch = await fetchDeletePublication(id);
 				console.log("RESPONSE FETCH DELETE");
-				console.log(jsonResponse);
+				console.log(fetch);
 
 				//réafficher les publications sans la pblication supprimée
 				await this.getAllPublications();
