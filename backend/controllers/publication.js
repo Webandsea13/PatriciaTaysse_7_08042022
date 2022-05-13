@@ -10,7 +10,7 @@ exports.createPublication = (req, res) => {
 	const profil_id = req.dToken.profilID;
 
 	const newPublication = {
-		text: publication.text,
+		text: publication.content,
 		image: req.file
 			? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
 			: null,

@@ -14,7 +14,7 @@
 						class="new-publication-input"
 						placeholder="Ecrivez quelque chose !"
 						required
-						v-model="newPubli.text"
+						v-model="newPubli.content"
 						autofocus
 					></textarea>
 					<div>
@@ -99,7 +99,7 @@ export default {
 		return {
 			datas: [],
 			content: "",
-			newPubli: { text: "", image: "", profil_id: "" },
+			newPubli: { content: "", picture: "", profil_id: "" },
 			sNewPubli: "",
 			user: "",
 			profilID: "",
@@ -133,23 +133,23 @@ export default {
 
 		//récupérer url image
 		getURL(e) {
-			this.newPubli.image = e.target.files[0];
+			this.newPubli.picture = e.target.files[0];
 			console.log("RECUPERATION URL IMAGE");
-			console.log(this.newPubli.image);
+			console.log(this.newPubli.picture);
 		},
 
 		async newPublication() {
 			try {
 				const publicationToSend = {
-					text: this.newPubli.text,
+					content: this.newPubli.content,
 				};
 				console.log("PUBLICATION TO SEND");
 				console.log(publicationToSend);
 				let sNewPubli = JSON.stringify(publicationToSend);
 				let formData = new FormData();
 				formData.append("publication", sNewPubli);
-				if (this.newPubli.image) {
-					formData.append("image", this.newPubli.image);
+				if (this.newPubli.picture) {
+					formData.append("image", this.newPubli.picture);
 				}
 
 				await fetchPostNewPublication(formData);
