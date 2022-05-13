@@ -103,31 +103,35 @@ exports.deletePublication = async (req, res) => {
 		console.log(data);
 		if (data.profil_id == req.dToken.profilID) {
 			console.log("REUSSI");
-			const filename = data.image.split("/images/")[1];
-			fs.unlink(`images/${filename}`, () => {
-				try {
-					dbconnection.query(
-						`DELETE  FROM publication WHERE id=?`,
-						req.params.id,
-						(error, results) => {
-							if (error) {
-								res.status(400).json({
-									message:
-										"impossible de supprimer les données publication.",
-									error: error,
-								});
-							} else {
-								res.status(200).json({
-									message: "Données publication effacées.",
-								});
-							}
-						}
-					);
-				} catch (error) {
-					console.log("PROBLEME UNLINk");
-					console.log(error);
+			if (data.image != null) {
+				const filename = data.image.split("/images/")[1];
+				fs.unlink(`images/${filename}`, (error) => {
+					if (error) {
+						console.log("UNLINK IMPOSSIBLE");
+						console.log(error);
+					} else {
+						console.log("UNLINK EFFECTUE");
+					}
+				});
+			}
+
+			dbconnection.query(
+				`DELETE  FROM publication WHERE id=?`,
+				req.params.id,
+				(error, results) => {
+					if (error) {
+						res.status(400).json({
+							message:
+								"impossible de supprimer les données publication.",
+							error: error,
+						});
+					} else {
+						res.status(200).json({
+							message: "Données publication effacées.",
+						});
+					}
 				}
-			});
+			);
 		} else {
 			throw "requete non autorisée !!!";
 		}
