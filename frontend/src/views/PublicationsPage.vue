@@ -14,7 +14,7 @@
 						class="new-publication-input"
 						placeholder="Ecrivez quelque chose !"
 						required
-						v-model="publication.text"
+						v-model="newPubli.text"
 						autofocus
 					></textarea>
 					<div>
@@ -76,7 +76,7 @@
 							><i class="fas fa-edit"></i>Modifier la
 							publication</a
 						>
-						<a v-on:click="deletePublication()"
+						<a v-on:click="deletePublication(item.publicationId)"
 							><i class="fas fa-trash-alt"></i>Supprimer la
 							publication</a
 						>
@@ -91,14 +91,16 @@
 import HomeHeader from "../components/HomeHeader";
 
 import { fetchAllPublications } from "../api/publication";
+//import { fetchPostNewPublication } from "../api/publication";
 
 export default {
 	name: "PublicationsPage",
 	data() {
 		return {
 			datas: [],
-			publication: { text: "", image: "", profil_id: "" },
-			spublication: "",
+			content: "",
+			newPubli: { text: "", image: "", profil_id: "" },
+			sNewPubli: "",
 			user: "",
 			profilID: "",
 			isAdmin: "",
@@ -131,9 +133,9 @@ export default {
 
 		//récupérer url image
 		getURL(e) {
-			this.publication.image = e.target.files[0];
+			this.newPubli.image = e.target.files[0];
 			console.log("RECUPERATION URL IMAGE");
-			console.log(this.publication.image);
+			console.log(this.newPubli.image);
 		},
 
 		async newPublication() {
@@ -144,19 +146,17 @@ export default {
 				const LStoken = localStorage.getItem("token");
 				const token = JSON.parse(LStoken);
 				const publicationToSend = {
-					text: this.publication.text,
+					text: this.newPubli.text,
 					profil_id: user.profilID,
 				};
 				console.log("PUBLICATION TO SEND");
 				console.log(publicationToSend);
-
-				let spublication = JSON.stringify(publicationToSend);
+				let sNewPubli = JSON.stringify(publicationToSend);
 				let formData = new FormData();
-				formData.append("publication", spublication);
-				if (this.publication.image) {
-					formData.append("image", this.publication.image);
+				formData.append("publication", sNewPubli);
+				if (this.newPubli.image) {
+					formData.append("image", this.newPubli.image);
 				}
-
 				const response = await fetch(
 					"http://localhost:3000/api/publication",
 					{
@@ -168,7 +168,9 @@ export default {
 					}
 				);
 				const jsonResponse = await response.json();
+				//const fetch = await fetchPostNewPublication();
 				console.log("RESPONSE FETCH POST");
+				//console.log(fetch);
 				console.log(jsonResponse);
 
 				//réafficher les publications avec la newPublication
@@ -177,7 +179,8 @@ export default {
 				console.log(error);
 			}
 		},
-		async deletePublication() {
+
+		async deletePublication(id) {
 			try {
 				const LS = localStorage.getItem("token");
 				//console.log("TOKEN DU LOCAL STORAGE");
@@ -185,7 +188,7 @@ export default {
 				const token = JSON.parse(LS);
 				//console.log(token);
 				const response = await fetch(
-					"http://localhost:3000/api/publication/id",
+					"http://localhost:3000/api/publication/" + id,
 					{
 						method: "DELETE",
 						headers: {

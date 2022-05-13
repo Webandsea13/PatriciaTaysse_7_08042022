@@ -8,7 +8,7 @@ const authorize = require("../middlewares/authorize");
 
 const publicationControllers = require("../controllers/publication");
 
-router.post("/", multer, publicationControllers.createPublication);
+router.post("/", multer, authorize, publicationControllers.createPublication);
 
 router.get("/", authorize, publicationControllers.readAllPublication);
 
