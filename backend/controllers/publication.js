@@ -4,18 +4,20 @@ const fs = require("fs");
 exports.createPublication = (req, res) => {
 	console.log("req.body", req.body);
 	console.log("req.file", req.file);
+	console.log("req.dToken", req.dToken);
 
 	const publication = JSON.parse(req.body.publication);
+	const profil_id = req.dToken.profilID;
 
 	const newPublication = {
 		text: publication.text,
 		image: req.file
 			? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
 			: null,
-		profil_id: publication.profil_id,
+		profil_id: profil_id,
 	};
-	//console.log("NEW PUBLICATION");
-	//console.log(newPublication);
+	console.log("NEW PUBLICATION");
+	console.log(newPublication);
 
 	//enregistrer la nouvelle publication dans la db
 	dbconnection.query(

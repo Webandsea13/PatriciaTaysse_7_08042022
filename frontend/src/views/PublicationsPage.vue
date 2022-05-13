@@ -91,7 +91,7 @@
 import HomeHeader from "../components/HomeHeader";
 
 import { fetchAllPublications } from "../api/publication";
-//import { fetchPostNewPublication } from "../api/publication";
+import { fetchPostNewPublication } from "../api/publication";
 
 export default {
 	name: "PublicationsPage",
@@ -140,14 +140,8 @@ export default {
 
 		async newPublication() {
 			try {
-				const LS = localStorage.getItem("user");
-				const user = JSON.parse(LS);
-				//console.log(user);
-				const LStoken = localStorage.getItem("token");
-				const token = JSON.parse(LStoken);
 				const publicationToSend = {
 					text: this.newPubli.text,
-					profil_id: user.profilID,
 				};
 				console.log("PUBLICATION TO SEND");
 				console.log(publicationToSend);
@@ -157,21 +151,8 @@ export default {
 				if (this.newPubli.image) {
 					formData.append("image", this.newPubli.image);
 				}
-				const response = await fetch(
-					"http://localhost:3000/api/publication",
-					{
-						method: "POST",
-						body: formData,
-						headers: {
-							Authorization: "Bearer " + token,
-						},
-					}
-				);
-				const jsonResponse = await response.json();
-				//const fetch = await fetchPostNewPublication();
-				console.log("RESPONSE FETCH POST");
-				//console.log(fetch);
-				console.log(jsonResponse);
+
+				await fetchPostNewPublication(formData);
 
 				//réafficher les publications avec la newPublication
 				await this.getAllPublications();
@@ -183,10 +164,9 @@ export default {
 		async deletePublication(id) {
 			try {
 				const LS = localStorage.getItem("token");
-				//console.log("TOKEN DU LOCAL STORAGE");
-				//console.log(LS);
+
 				const token = JSON.parse(LS);
-				//console.log(token);
+
 				const response = await fetch(
 					"http://localhost:3000/api/publication/" + id,
 					{

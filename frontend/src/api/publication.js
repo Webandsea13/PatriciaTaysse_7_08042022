@@ -14,27 +14,13 @@ export const fetchAllPublications = async function () {
 	return jsonRes;
 };
 
-/*export const fetchPostNewPublication = async function () {
-	const LS = localStorage.getItem("user");
-	const user = JSON.parse(LS);
-	//console.log(user);
+export const fetchPostNewPublication = async function (data) {
 	const LStoken = localStorage.getItem("token");
 	const token = JSON.parse(LStoken);
-	const publicationToSend = {
-		text: this.newPubli.text,
-		profil_id: user.profilID,
-	};
-	console.log("PUBLICATION TO SEND");
-	console.log(publicationToSend);
-	let sNewPubli = JSON.stringify(publicationToSend);
-	let formData = new FormData();
-	formData.append("publication", sNewPubli);
-	if (this.newPubli.image) {
-		formData.append("image", this.newPubli.image);
-	}
+
 	const response = await fetch("http://localhost:3000/api/publication", {
 		method: "POST",
-		body: formData,
+		body: data,
 		headers: {
 			Authorization: "Bearer " + token,
 		},
@@ -42,4 +28,4 @@ export const fetchAllPublications = async function () {
 	const jsonResponse = await response.json();
 
 	return jsonResponse;
-};*/
+};
