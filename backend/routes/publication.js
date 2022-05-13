@@ -18,6 +18,7 @@ router.delete(
 	"/:id",
 
 	multer,
+	authorize,
 	publicationControllers.deletePublication
 );
 

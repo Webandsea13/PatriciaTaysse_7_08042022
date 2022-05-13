@@ -21,7 +21,7 @@ exports.readAllProfil = (req, res, next) => {
 };
 
 exports.readOneProfil = (req, res) => {
-	console.log("controller requete get OneProfil");
+	//console.log("controller requete get OneProfil");
 	dbconnection.query(
 		`SELECT * FROM profil WHERE id=?`,
 		req.params.id,
@@ -33,7 +33,7 @@ exports.readOneProfil = (req, res) => {
 				});
 			} else {
 				res.status(200).json(results[0]);
-				console.log(results);
+				//console.log(results);
 			}
 		}
 	);

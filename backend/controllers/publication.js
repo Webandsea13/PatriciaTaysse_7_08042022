@@ -90,26 +90,56 @@ exports.readProfilPublication = async (req, res) => {
 
 exports.deletePublication = async (req, res) => {
 	try {
-		/*dbconnection.query(
-			`SELECT profil_id FROM publication WHERE id=?`,
-			req.params.id,
-			(error, results) => {
-				if (error) {
-					res.status(400).json({
-						message:
-							"impossible de trouver les données à supprimer.",
-						error: error,
-					});
-				} else {
-					await res.status(200).json({
-						results,
-					});
-					const data=results.json();
-					console.log(data);
+		const results = await dbconnection
+			.promise()
+			.query(
+				`SELECT * FROM publication WHERE publication.id=?`,
+				req.params.id
+			);
+		console.log("RECUPERATION DE LA PUBLICATION AVANT SUPPRESSION ");
+		console.log(results[0]);
+		const dataArray = results[0];
+		const data = dataArray[0];
+		console.log(data);
+		if (data.profil_id == req.dToken.profilID) {
+			console.log("REUSSI");
+			const filename = data.image.split("/images/")[1];
+			fs.unlink(`images/${filename}`, () => {
+				try {
+					dbconnection.query(
+						`DELETE  FROM publication WHERE id=?`,
+						req.params.id,
+						(error, results) => {
+							if (error) {
+								res.status(400).json({
+									message:
+										"impossible de supprimer les données publication.",
+									error: error,
+								});
+							} else {
+								res.status(200).json({
+									message: "Données publication effacées.",
+								});
+							}
+						}
+					);
+				} catch (error) {
+					console.log("PROBLEME UNLINk");
+					console.log(error);
 				}
-			}
-		);*/
-		dbconnection.query(
+			});
+		} else {
+			throw "requete non autorisée !!!";
+		}
+	} catch (error) {
+		res.status(400).json({
+			message: "impossible de trouver les données à supprimer.",
+			error: error,
+		});
+	}
+};
+
+/*dbconnection.query(
 			`DELETE  FROM publication WHERE id=?`,
 			req.params.id,
 			(error, results) => {
@@ -120,6 +150,7 @@ exports.deletePublication = async (req, res) => {
 						error: error,
 					});
 				} else {
+
 					res.status(200).json({
 						message: "Données publication effacées.",
 					});
@@ -131,4 +162,4 @@ exports.deletePublication = async (req, res) => {
 			.status(500)
 			.json({ error: error, message: "action impossible" });
 	}
-};
+};*/
