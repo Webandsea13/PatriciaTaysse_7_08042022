@@ -96,12 +96,12 @@ exports.deletePublication = async (req, res) => {
 				`SELECT * FROM publication WHERE publication.id=?`,
 				req.params.id
 			);
-		console.log("RECUPERATION DE LA PUBLICATION AVANT SUPPRESSION ");
-		console.log(results[0]);
+		//console.log("RECUPERATION DE LA PUBLICATION AVANT SUPPRESSION ");
+		//console.log(results[0]);
 		const dataArray = results[0];
 		const data = dataArray[0];
 		console.log(data);
-		if (data.profil_id == req.dToken.profilID) {
+		if (data.profil_id == req.dToken.profilID || req.dToken.isAdmin == 1) {
 			console.log("REUSSI");
 			if (data.image != null) {
 				const filename = data.image.split("/images/")[1];
@@ -142,28 +142,3 @@ exports.deletePublication = async (req, res) => {
 		});
 	}
 };
-
-/*dbconnection.query(
-			`DELETE  FROM publication WHERE id=?`,
-			req.params.id,
-			(error, results) => {
-				if (error) {
-					res.status(400).json({
-						message:
-							"impossible de supprimer les données publication.",
-						error: error,
-					});
-				} else {
-
-					res.status(200).json({
-						message: "Données publication effacées.",
-					});
-				}
-			}
-		);
-	} catch (error) {
-		return res
-			.status(500)
-			.json({ error: error, message: "action impossible" });
-	}
-};*/

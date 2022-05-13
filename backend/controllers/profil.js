@@ -2,7 +2,7 @@
 //const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
-
+const fs = require("fs");
 const dbconnection = require("../db/db");
 
 exports.readAllProfil = (req, res, next) => {
@@ -39,21 +39,54 @@ exports.readOneProfil = (req, res) => {
 	);
 };
 
-exports.deleteProfil = (req, res) => {
-	dbconnection.query(
-		`DELETE  FROM profil WHERE id=?`,
-		req.params.id,
-		(error, results) => {
-			if (error) {
-				res.status(400).json({
-					message: "impossible de supprimer les données du profil.",
-					error: error,
+exports.deleteProfil = async (req, res) => {
+	try {
+		const results = await dbconnection
+			.promise()
+			.query(`SELECT * FROM profil WHERE id=?`, req.params.id);
+		console.log("RECUPERATION PROFIL AVANT SUPPRESSION");
+		const dataArray = results[0];
+		const data = dataArray[0];
+		if (data.id == req.dToken.profilID || req.dToken.isAdmin == 1) {
+			console.log("REUSSI");
+			if (data.imageProfil != null) {
+				const filename = data.imageProfil.split("/images/")[1];
+				fs.unlink(`images/${filename}`, (error) => {
+					if (error) {
+						console.log("UNLINK IMPOSSIBLE");
+						console.log(error);
+					} else {
+						console.log("UNLINK EFFECTUE");
+					}
 				});
-			} else {
-				res.status(200).json({ message: "Données profil effacées." });
 			}
+
+			dbconnection.query(
+				`DELETE  FROM profil WHERE id=?`,
+				req.params.id,
+				(error, results) => {
+					if (error) {
+						res.status(400).json({
+							message:
+								"impossible de supprimer les données du profil.",
+							error: error,
+						});
+					} else {
+						res.status(200).json({
+							message: "Données profil effacées.",
+						});
+					}
+				}
+			);
+		} else {
+			throw "requete non autorisée !!!";
 		}
-	);
+	} catch (error) {
+		res.status(400).json({
+			message: "impossible de trouver les données à supprimer.",
+			error: error,
+		});
+	}
 };
 
 exports.signup = (req, res) => {
