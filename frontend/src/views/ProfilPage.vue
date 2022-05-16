@@ -55,7 +55,10 @@
 				>
 					<p>Publié par {{ profil.name }}</p>
 					<p>le {{ new Date(item.time).toLocaleString() }}</p>
-					<textarea v-if="modif"></textarea>
+					m
+					<textarea
+						v-if="idPublicationToModify == item.id"
+					></textarea>
 					<h3 v-else>{{ item.text }}</h3>
 
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
@@ -202,8 +205,8 @@ export default {
 				console.log(error);
 			}
 		},
-		edit() {
-			this.modif = !this.modif;
+		edit(id) {
+			this.idPublicationToModify = id;
 		},
 		updateProfil() {
 			console.log("CLIC MODIFIER PROFIL");
