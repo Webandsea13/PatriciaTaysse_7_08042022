@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import AppLayout from "../AppLayout";
+
 import Login from "../views/LoginPage";
 import Signup from "../views/SignupPage";
 import Publications from "../views/PublicationsPage";
@@ -35,33 +37,39 @@ Méthode 2 :
 const routes = [
 	{
 		path: "/",
-		name: "Home",
-		redirect: "/login",
-	},
-	{
-		path: "/login",
-		name: "LoginPage",
-		component: Login,
-	},
-	{
-		path: "/signup",
-		name: "SignupPage",
-		component: Signup,
-	},
-	{
-		path: "/publications",
-		name: "PublicationsPage",
-		component: Publications,
-	},
-	{
-		path: "/profil/:id",
-		name: "ProfilPage",
-		component: Profil,
-	},
-	{
-		path: "/users",
-		name: "UsersPage",
-		component: Users,
+		component: AppLayout,
+		children: [
+			{
+				path: "/",
+				name: "Home",
+				redirect: "/login",
+			},
+			{
+				path: "/login",
+				name: "LoginPage",
+				component: Login,
+			},
+			{
+				path: "/signup",
+				name: "SignupPage",
+				component: Signup,
+			},
+			{
+				path: "/publications",
+				name: "PublicationsPage",
+				component: Publications,
+			},
+			{
+				path: "/profil/:id",
+				name: "ProfilPage",
+				component: Profil,
+			},
+			{
+				path: "/users",
+				name: "UsersPage",
+				component: Users,
+			},
+		],
 	},
 ];
 

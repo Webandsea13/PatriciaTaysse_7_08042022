@@ -1,5 +1,5 @@
 <template>
-	<div class="background">
+	<div>
 		<div class="register-header">
 			<div class="register-header-logo">
 				<img

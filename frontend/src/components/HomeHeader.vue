@@ -8,6 +8,9 @@
 			/>
 		</div>
 		<nav>
+			<div v-if="currentUser">
+				{{ currentUser.name }}
+			</div>
 			<a v-on:click="deconnect()">
 				<i class="fas fa-door-open"></i>Se déconnecter
 			</a>
@@ -30,7 +33,7 @@
 <script>
 export default {
 	name: "HomeHeader",
-	props: ["user"],
+	props: ["currentUser"],
 	data() {
 		return {
 			profil_id: "",
@@ -49,6 +52,7 @@ export default {
 	},
 	methods: {
 		deconnect() {
+			localStorage.removeItem("token");
 			this.$router.push("/login");
 		},
 	},

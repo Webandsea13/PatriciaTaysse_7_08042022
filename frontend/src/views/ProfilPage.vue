@@ -1,80 +1,73 @@
 <template>
-	<div class="background">
-		<HomeHeader></HomeHeader>
-		<div class="home-section" v-if="profil">
-			<h2>Profil</h2>
+	<div class="home-section" v-if="profil">
+		<h2>Profil</h2>
 
-			<div class="container">
-				<div class="profil">
-					<img
-						v-if="profil.imageProfil"
-						v-bind:src="profil.imageProfil"
-						alt=""
-						class="imgProfil"
-					/>
-					<div v-else>
-						<i class="fas fa-user-circle fa-6x"></i>
-					</div>
-					<div v-if="modif">
-						<p>
-							Nom :
-							<input type="text" :placeholder="profil.name" />
-						</p>
-					</div>
-
-					<p v-else>Nom : {{ profil.name }}</p>
-					<p>Email : {{ profil.email }}</p>
+		<div class="container">
+			<div class="profil">
+				<img
+					v-if="profil.imageProfil"
+					v-bind:src="profil.imageProfil"
+					alt=""
+					class="imgProfil"
+				/>
+				<div v-else>
+					<i class="fas fa-user-circle fa-6x"></i>
+				</div>
+				<div v-if="modif">
 					<p>
-						Inscrit depuis le :
-						{{ new Date(profil.time).toLocaleString() }}
+						Nom :
+						<input type="text" :placeholder="profil.name" />
 					</p>
 				</div>
+
+				<p v-else>Nom : {{ profil.name }}</p>
+				<p>Email : {{ profil.email }}</p>
+				<p>
+					Inscrit depuis le :
+					{{ new Date(profil.time).toLocaleString() }}
+				</p>
+			</div>
+			<div
+				class="profil action"
+				v-if="profilID == profil.id || isAdmin == 1"
+			>
+				<div v-if="modif" v-on:click="updateProfil()" class="lien">
+					<i class="fas fa-paper-plane"></i>Envoyer les modifications
+				</div>
+				<div v-else class="lien" v-on:click="edit()">
+					<i class="fas fa-edit"></i>Modifier le profil
+				</div>
+				<a v-on:click="deleteProfil()"
+					><i class="fas fa-trash-alt"></i>Supprimer le profil</a
+				>
+			</div>
+		</div>
+
+		<h2>Publications</h2>
+		<div class="container">
+			<div
+				v-for="item in profilPublications"
+				v-bind:key="item.id"
+				class="publication"
+			>
+				<p>Publié par {{ profil.name }}</p>
+				<p>le {{ new Date(item.time).toLocaleString() }}</p>
+				m
+				<textarea v-if="idPublicationToModify == item.id"></textarea>
+				<h3 v-else>{{ item.text }}</h3>
+
+				<img v-if="item.image" v-bind:src="item.image" alt="" />
 				<div
 					class="profil action"
-					v-if="profilID == profil.id || isAdmin == 1"
+					v-if="profilID == item.profil_id || isAdmin == 1"
 				>
-					<div v-if="modif" v-on:click="updateProfil()" class="lien">
-						<i class="fas fa-paper-plane"></i>Envoyer les
-						modifications
+					<div class="lien" v-on:click="edit(item.id)">
+						<i class="fas fa-edit"></i>Modifier la publication
 					</div>
-					<div v-else class="lien" v-on:click="edit()">
-						<i class="fas fa-edit"></i>Modifier le profil
-					</div>
-					<a v-on:click="deleteProfil()"
-						><i class="fas fa-trash-alt"></i>Supprimer le profil</a
-					>
-				</div>
-			</div>
-
-			<h2>Publications</h2>
-			<div class="container">
-				<div
-					v-for="item in profilPublications"
-					v-bind:key="item.id"
-					class="publication"
-				>
-					<p>Publié par {{ profil.name }}</p>
-					<p>le {{ new Date(item.time).toLocaleString() }}</p>
-					m
-					<textarea
-						v-if="idPublicationToModify == item.id"
-					></textarea>
-					<h3 v-else>{{ item.text }}</h3>
-
-					<img v-if="item.image" v-bind:src="item.image" alt="" />
-					<div
-						class="profil action"
-						v-if="profilID == item.profil_id || isAdmin == 1"
-					>
-						<div class="lien" v-on:click="edit(item.id)">
-							<i class="fas fa-edit"></i>Modifier la publication
-						</div>
-						<div v-if="modif">Bonjour la modif</div>
-						<p class="lien" v-on:click="deletePublication(item.id)">
-							<i class="fas fa-trash-alt"></i>Supprimer la
-							publication
-						</p>
-					</div>
+					<div v-if="modif">Bonjour la modif</div>
+					<p class="lien" v-on:click="deletePublication(item.id)">
+						<i class="fas fa-trash-alt"></i>Supprimer la publication
+					</p>
 				</div>
 			</div>
 		</div>
@@ -82,13 +75,12 @@
 </template>
 
 <script>
-import HomeHeader from "../components/HomeHeader.vue";
 import { fetchDeletePublication } from "../api/publication";
 import { fetchDeleteProfil } from "../api/publication";
 
 export default {
 	name: "ProfilPage",
-	components: { HomeHeader },
+	props: ["currentUser"],
 	data() {
 		return {
 			profil: null,
@@ -97,7 +89,6 @@ export default {
 			isAdmin: "",
 			profilIDUrl: "",
 			modif: false,
-			user: {},
 		};
 	},
 	//afficher le profil et ses publications au chargement de la page
@@ -118,8 +109,8 @@ export default {
 				//recupération isAdmin dans token LS
 				//const LS = localStorage.getItem("user");
 				//const user = JSON.parse(LS);
-				//this.profilID = user.profilID;
-				//this.isAdmin = user.isAdmin;
+				//this.profilID = currentUser.profilID;
+				//this.isAdmin = currentUser.isAdmin;
 				//recupération id en paramètres url
 				this.profilIDUrl = profilId;
 				console.log(" verification recupération id dans url");
@@ -140,8 +131,8 @@ export default {
 				console.log(jsonRes);
 				this.profil = jsonRes.results;
 				this.user = jsonRes.dToken;
-				this.profilID = this.user.profilID;
-				this.isAdmin = this.user.isAdmin;
+				this.profilID = this.currentUser.profilID;
+				this.isAdmin = this.currentUser.isAdmin;
 			} catch (error) {
 				console.log(error);
 			}
@@ -151,7 +142,7 @@ export default {
 			try {
 				//const LS = localStorage.getItem("user");
 				//const user = JSON.parse(LS);
-				//this.profilID = user.profilID;
+				//this.profilID = currentUser.profilID;
 				const LStoken = localStorage.getItem("token");
 
 				const token = JSON.parse(LStoken);

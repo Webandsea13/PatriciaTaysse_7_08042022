@@ -19,7 +19,14 @@ exports.getCurrentProfil = (req, res, next) => {
 				});
 			}
 
-			return res.status(200).json(results[0]); // TODO : que le premier résultat
+			const user = results[0];
+
+			return res.status(200).json({
+				id: user.id,
+				email: user.email,
+				name: user.name,
+				imageProfil: user.imageProfil,
+			});
 		}
 	);
 };
