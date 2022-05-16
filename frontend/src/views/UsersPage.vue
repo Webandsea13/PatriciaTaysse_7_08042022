@@ -40,6 +40,7 @@ export default {
 	data() {
 		return {
 			users: [],
+			user: {},
 		};
 	},
 
@@ -50,11 +51,18 @@ export default {
 	methods: {
 		async viewUsers() {
 			try {
-				const res = await fetch("http://localhost:3000/api/profil");
+				const LStoken = localStorage.getItem("token");
+				const token = JSON.parse(LStoken);
+				const res = await fetch("http://localhost:3000/api/profil", {
+					headers: {
+						Authorization: "Bearer " + token,
+					},
+				});
 				const jsonRes = await res.json();
 				console.log("JSON RES DU FETCH");
 				console.log(jsonRes);
 				this.users = jsonRes.results;
+				this.user = jsonRes.dToken;
 			} catch (error) {
 				console.log(error);
 			}

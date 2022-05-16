@@ -15,20 +15,31 @@
 					<div v-else>
 						<i class="fas fa-user-circle fa-6x"></i>
 					</div>
-					<div>
-						<p>Nom : {{ profil.name }}</p>
-						<p>Email : {{ profil.email }}</p>
+					<div v-if="modif">
 						<p>
-							Inscrit depuis le :
-							{{ new Date(profil.time).toLocaleString() }}
+							Nom :
+							<input type="text" :placeholder="profil.name" />
 						</p>
 					</div>
+
+					<p v-else>Nom : {{ profil.name }}</p>
+					<p>Email : {{ profil.email }}</p>
+					<p>
+						Inscrit depuis le :
+						{{ new Date(profil.time).toLocaleString() }}
+					</p>
 				</div>
 				<div
 					class="profil action"
 					v-if="profilID == profil.id || isAdmin == 1"
 				>
-					<a><i class="fas fa-edit"></i>Modifier le profil</a>
+					<div v-if="modif" v-on:click="updateProfil()" class="lien">
+						<i class="fas fa-paper-plane"></i>Envoyer les
+						modifications
+					</div>
+					<div v-else class="lien" v-on:click="edit()">
+						<i class="fas fa-edit"></i>Modifier le profil
+					</div>
 					<a v-on:click="deleteProfil()"
 						><i class="fas fa-trash-alt"></i>Supprimer le profil</a
 					>
@@ -44,20 +55,22 @@
 				>
 					<p>Publié par {{ profil.name }}</p>
 					<p>le {{ new Date(item.time).toLocaleString() }}</p>
-					<h3>{{ item.text }}</h3>
+					<textarea v-if="modif"></textarea>
+					<h3 v-else>{{ item.text }}</h3>
+
 					<img v-if="item.image" v-bind:src="item.image" alt="" />
 					<div
 						class="profil action"
 						v-if="profilID == item.profil_id || isAdmin == 1"
 					>
-						<a
-							><i class="fas fa-edit"></i>Modifier la
-							publication</a
-						>
-						<a v-on:click="deletePublication(item.id)"
-							><i class="fas fa-trash-alt"></i>Supprimer la
-							publication</a
-						>
+						<div class="lien" v-on:click="edit(item.id)">
+							<i class="fas fa-edit"></i>Modifier la publication
+						</div>
+						<div v-if="modif">Bonjour la modif</div>
+						<p class="lien" v-on:click="deletePublication(item.id)">
+							<i class="fas fa-trash-alt"></i>Supprimer la
+							publication
+						</p>
 					</div>
 				</div>
 			</div>
@@ -80,6 +93,8 @@ export default {
 			profilID: "",
 			isAdmin: "",
 			profilIDUrl: "",
+			modif: false,
+			user: {},
 		};
 	},
 	//afficher le profil et ses publications au chargement de la page
@@ -98,22 +113,32 @@ export default {
 		async getProfil(profilId) {
 			try {
 				//recupération isAdmin dans token LS
-				const LS = localStorage.getItem("user");
-				const user = JSON.parse(LS);
-				this.profilID = user.profilID;
-				this.isAdmin = user.isAdmin;
+				//const LS = localStorage.getItem("user");
+				//const user = JSON.parse(LS);
+				//this.profilID = user.profilID;
+				//this.isAdmin = user.isAdmin;
 				//recupération id en paramètres url
 				this.profilIDUrl = profilId;
 				console.log(" verification recupération id dans url");
 				console.log(this.profilIDUrl);
-
+				// ATTENTION !!! remplacer la récupération de user localStorage par user dToken
+				const LStoken = localStorage.getItem("token");
+				const token = JSON.parse(LStoken);
 				const res = await fetch(
-					"http://localhost:3000/api/profil/" + this.profilIDUrl
+					"http://localhost:3000/api/profil/" + this.profilIDUrl,
+					{
+						headers: {
+							Authorization: "Bearer " + token,
+						},
+					}
 				);
 				const jsonRes = await res.json();
 				console.log("JSON RES DU FETCH getProfil");
 				console.log(jsonRes);
-				this.profil = jsonRes;
+				this.profil = jsonRes.results;
+				this.user = jsonRes.dToken;
+				this.profilID = this.user.profilID;
+				this.isAdmin = this.user.isAdmin;
 			} catch (error) {
 				console.log(error);
 			}
@@ -121,9 +146,9 @@ export default {
 
 		async getProfilPublications(profilId) {
 			try {
-				const LS = localStorage.getItem("user");
-				const user = JSON.parse(LS);
-				this.profilID = user.profilID;
+				//const LS = localStorage.getItem("user");
+				//const user = JSON.parse(LS);
+				//this.profilID = user.profilID;
 				const LStoken = localStorage.getItem("token");
 
 				const token = JSON.parse(LStoken);
@@ -171,11 +196,18 @@ export default {
 				console.log("RESPONSE FETCH DELETE");
 				console.log(fetch);
 
-				//réafficher les publications sans la pblication supprimée
+				//réafficher les publications sans la publication supprimée
 				await this.getProfilPublications(this.$route.params.id);
 			} catch (error) {
 				console.log(error);
 			}
+		},
+		edit() {
+			this.modif = !this.modif;
+		},
+		updateProfil() {
+			console.log("CLIC MODIFIER PROFIL");
+			this.modif = !this.modif;
 		},
 	},
 };

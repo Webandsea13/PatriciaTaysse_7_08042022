@@ -15,7 +15,7 @@
 				<i class="fas fa-home"></i>
 				Accueil
 			</router-link>
-			<router-link v-if="profil_id" :to="'/profil/' + profil_id">
+			<router-link v-if="this.profil_id" :to="'/profil/' + profil_id">
 				<i class="fas fa-user"></i>
 				Voir mon profil
 			</router-link>
@@ -30,6 +30,7 @@
 <script>
 export default {
 	name: "HomeHeader",
+	props: ["user"],
 	data() {
 		return {
 			profil_id: "",
@@ -41,8 +42,10 @@ export default {
 		const user = JSON.parse(LS);
 		console.log("recupértion userid dans LS");
 		console.log(user.profilID);
-
 		this.profil_id = user.profilID;
+
+		//utilisation user provenant des props
+		//this.profil_id = this.user.profilID;
 	},
 	methods: {
 		deconnect() {

@@ -102,7 +102,20 @@ a:visited {
 	text-decoration: none;
 	color: black;
 }
-
+.lien {
+	margin-left: auto;
+	margin-right: auto;
+	margin: 5px;
+	text-decoration: none;
+	font-weight: bold;
+}
+.lien:hover {
+	color: #e66465;
+}
+.lien:visited {
+	text-decoration: none;
+	color: black;
+}
 .home-section {
 	width: 700px;
 	position: relative;

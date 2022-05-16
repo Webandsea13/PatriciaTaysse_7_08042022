@@ -142,3 +142,7 @@ exports.deletePublication = async (req, res) => {
 		});
 	}
 };
+
+exports.updatePublication = async (req, res) => {
+	console.log("UPDTATE PUBLICATION");
+};

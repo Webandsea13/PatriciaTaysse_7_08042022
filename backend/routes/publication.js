@@ -22,6 +22,6 @@ router.delete(
 	publicationControllers.deletePublication
 );
 
-// router.update("/publication/id", publicationControllers.modifyPublication);
+router.put("/:id", authorize, multer, publicationControllers.updatePublication);
 
 module.exports = router;

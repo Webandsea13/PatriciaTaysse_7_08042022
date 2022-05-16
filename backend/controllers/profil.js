@@ -14,7 +14,8 @@ exports.readAllProfil = (req, res, next) => {
 				error: error,
 			});
 		} else {
-			res.status(200).json({ results });
+			const dToken = req.dToken;
+			res.status(200).json({ results: results, dToken: dToken });
 			console.log(results);
 		}
 	});
@@ -22,6 +23,7 @@ exports.readAllProfil = (req, res, next) => {
 
 exports.readOneProfil = (req, res) => {
 	//console.log("controller requete get OneProfil");
+
 	dbconnection.query(
 		`SELECT * FROM profil WHERE id=?`,
 		req.params.id,
@@ -32,7 +34,8 @@ exports.readOneProfil = (req, res) => {
 					error: error,
 				});
 			} else {
-				res.status(200).json(results[0]);
+				const dToken = req.dToken;
+				res.status(200).json({ results: results[0], dToken: dToken });
 				//console.log(results);
 			}
 		}
@@ -89,6 +92,10 @@ exports.deleteProfil = async (req, res) => {
 	}
 };
 
+exports.updateProfil = async (req, res) => {
+	console.log("UPDTATE PROFIL");
+};
+
 exports.signup = (req, res) => {
 	const profil = {
 		email: req.body.email,
@@ -117,6 +124,8 @@ exports.signup = (req, res) => {
 							{
 								profilID: results[0].id,
 								isAdmin: results[0].isAdmin,
+								name: results[0].name,
+								imageProfil: results[0].imageProfil,
 							},
 							process.env.JWT_KEY,
 							{ expiresIn: "12h" }
@@ -171,6 +180,8 @@ exports.login = (req, res) => {
 						{
 							profilID: results[0].id,
 							isAdmin: results[0].isAdmin,
+							name: results[0].name,
+							imageProfil: results[0].imageProfil,
 						},
 						process.env.JWT_KEY,
 						{ expiresIn: "12h" }

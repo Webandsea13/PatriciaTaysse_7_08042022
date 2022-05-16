@@ -11,12 +11,12 @@ router.post("/signup", profilControllers.signup);
 
 router.post("/login", profilControllers.login);
 
-router.get("/profil", profilControllers.readAllProfil);
+router.get("/profil", authorize, profilControllers.readAllProfil);
 
-router.get("/profil/:id", profilControllers.readOneProfil);
+router.get("/profil/:id", authorize, profilControllers.readOneProfil);
 
 router.delete("/profil/:id", authorize, multer, profilControllers.deleteProfil);
 
-//router.update("/profil/id", profilControllers.modifyProfil);
+router.put("/profil/:id", authorize, multer, profilControllers.updateProfil);
 
 module.exports = router;

@@ -1,14 +1,14 @@
 <template>
 	<div class="background">
-		<HomeHeader></HomeHeader>
+		<HomeHeader v-bind:user="user" />
 		<div class="home-section">
-			<h1>Bienvenue</h1>
+			<h1>Bienvenue {{ user.name }}</h1>
 			<div class="container">
 				<form
 					class="new-publication-form"
 					v-on:submit.prevent="newPublication"
 				>
-					<h2>Quoi de neuf ?</h2>
+					<h2>Quoi de neuf?</h2>
 					<textarea
 						type="textarea"
 						class="new-publication-input"
@@ -121,12 +121,12 @@ export default {
 				this.datas = fetch.results;
 				console.log(this.datas);
 				console.log("TOKEN DECODE");
-				const user = fetch.dToken;
-				console.log(user);
+				this.user = fetch.dToken;
+				console.log(this.user);
 				//const LS = localStorage.getItem("user");
 				//const user = JSON.parse(LS);
-				this.profilID = user.profilID;
-				this.isAdmin = user.isAdmin;
+				this.profilID = this.user.profilID;
+				this.isAdmin = this.user.isAdmin;
 			} catch (error) {
 				console.log(error);
 			}
