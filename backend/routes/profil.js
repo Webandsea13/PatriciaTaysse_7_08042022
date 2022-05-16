@@ -11,6 +11,8 @@ router.post("/signup", profilControllers.signup);
 
 router.post("/login", profilControllers.login);
 
+router.get("/profil/current", profilControllers.getCurrentProfil);
+
 router.get("/profil", authorize, profilControllers.readAllProfil);
 
 router.get("/profil/:id", authorize, profilControllers.readOneProfil);

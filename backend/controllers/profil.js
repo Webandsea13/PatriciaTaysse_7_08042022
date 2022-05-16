@@ -5,6 +5,25 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const dbconnection = require("../db/db");
 
+exports.getCurrentProfil = (req, res, next) => {
+	const currentUserID = req.dToken.profilID;
+
+	dbconnection.query(
+		`SELECT * FROM profil WHERE id = ?`,
+		currentUserID,
+		(error, results) => {
+			if (error) {
+				return res.status(500).json({
+					message: "Impossible de récupérer les données.",
+					error: error,
+				});
+			}
+
+			return res.status(200).json(results[0]); // TODO : que le premier résultat
+		}
+	);
+};
+
 exports.readAllProfil = (req, res, next) => {
 	console.log("requete get profils");
 	dbconnection.query(`SELECT * FROM profil`, (error, results) => {
