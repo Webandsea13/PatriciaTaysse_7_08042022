@@ -38,7 +38,11 @@ export default {
 			try {
 				const currentUserProfil = await getCurrentProfil();
 				this.currentUser = currentUserProfil;
-			} catch (error) {}
+				console.log("CREATION CURRENT USER ");
+				console.log(this.currentUser);
+			} catch (error) {
+				console.log(error);
+			}
 		},
 	},
 };

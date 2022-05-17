@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { fetchLogin } from "../api/profil";
 export default {
 	name: "LoginPage",
 	data() {
@@ -54,24 +55,12 @@ export default {
 	methods: {
 		async login() {
 			try {
-				const response = await fetch(
-					"http://localhost:3000/api/login",
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							accept: "application/json",
-						},
-						body: JSON.stringify(this.profil),
-					}
-				);
-				const jsonResponse = await response.json();
+				const jsonResponse = await fetchLogin(this.profil);
 				console.log(jsonResponse);
 				const token = jsonResponse.token;
-				localStorage.setItem("user", JSON.stringify(jsonResponse));
+
 				localStorage.setItem("token", JSON.stringify(token));
 
-				//window.location.href = "/publications";
 				this.$router.push("/publications");
 			} catch (error) {
 				console.log(error);

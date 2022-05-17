@@ -1,6 +1,7 @@
 <template>
 	<div class="home-section">
 		<h1>Bienvenue {{ user.name }}</h1>
+		<p>{{ currentUser }}</p>
 		<div class="container">
 			<form
 				class="new-publication-form"
@@ -84,6 +85,7 @@ import { fetchDeletePublication } from "../api/publication";
 
 export default {
 	name: "PublicationsPage",
+	props: ["currentUser"],
 	data() {
 		return {
 			datas: [],
@@ -114,6 +116,8 @@ export default {
 				//const user = JSON.parse(LS);
 				this.profilID = this.user.profilID;
 				this.isAdmin = this.user.isAdmin;
+				console.log("RECUPERATION CURRENT USER");
+				console.log(this.currentUser);
 			} catch (error) {
 				console.log(error);
 			}

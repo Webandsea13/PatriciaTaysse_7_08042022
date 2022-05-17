@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { signup } from "../api/profil";
+import { fetchSignup } from "../api/profil";
 
 export default {
 	name: "SignupPage",
@@ -67,10 +67,10 @@ export default {
 	methods: {
 		async signup() {
 			try {
-				const jsonResponse = await signup(this.profil);
+				const jsonResponse = await fetchSignup(this.profil);
 				console.log(jsonResponse);
 				const token = jsonResponse.token;
-				localStorage.setItem("user", JSON.stringify(jsonResponse));
+
 				localStorage.setItem("token", JSON.stringify(token));
 				this.$router.push("/publications");
 			} catch (error) {

@@ -26,6 +26,7 @@ exports.getCurrentProfil = (req, res, next) => {
 				email: user.email,
 				name: user.name,
 				imageProfil: user.imageProfil,
+				isAdmin: user.isAdmin,
 			});
 		}
 	);
@@ -158,8 +159,8 @@ exports.signup = (req, res) => {
 						);
 						res.status(201).json({
 							token: token,
-							profilID: results[0].id,
-							isAdmin: results[0].isAdmin,
+							//profilID: results[0].id,
+							//isAdmin: results[0].isAdmin,
 						});
 					}
 				}
@@ -215,8 +216,8 @@ exports.login = (req, res) => {
 
 					res.status(200).json({
 						token: token,
-						profilID: results[0].id,
-						isAdmin: results[0].isAdmin,
+						//profilID: results[0].id,
+						//isAdmin: results[0].isAdmin,
 					});
 				} else {
 					res.status(401).json({ message: "mot de passe incorrect" });

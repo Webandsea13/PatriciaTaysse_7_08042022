@@ -8,9 +8,7 @@
 			/>
 		</div>
 		<nav>
-			<div v-if="currentUser">
-				{{ currentUser.name }}
-			</div>
+			<div v-if="currentUser"></div>
 			<a v-on:click="deconnect()">
 				<i class="fas fa-door-open"></i>Se déconnecter
 			</a>
@@ -40,15 +38,8 @@ export default {
 		};
 	},
 	created() {
-		// recupérer id depuis local storage
-		const LS = localStorage.getItem("user");
-		const user = JSON.parse(LS);
-		console.log("recupértion userid dans LS");
-		console.log(user.profilID);
-		this.profil_id = user.profilID;
-
-		//utilisation user provenant des props
-		//this.profil_id = this.user.profilID;
+		//utilisation userCurrent provenant des props
+		this.profil_id = this.currentUser.id;
 	},
 	methods: {
 		deconnect() {
