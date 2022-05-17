@@ -7,6 +7,7 @@ import Signup from "../views/SignupPage";
 import Publications from "../views/PublicationsPage";
 import Profil from "../views/ProfilPage";
 import Users from "../views/UsersPage";
+import EditProfil from "../views/EditProfilPage";
 
 /**
 
@@ -68,6 +69,11 @@ const routes = [
 				path: "/users",
 				name: "UsersPage",
 				component: Users,
+			},
+			{
+				path: "/profil/edit/:id",
+				name: "EditProfilPage",
+				component: EditProfil,
 			},
 		],
 	},

@@ -12,14 +12,8 @@
 				<div v-else>
 					<i class="fas fa-user-circle fa-6x"></i>
 				</div>
-				<div v-if="modif">
-					<div>
-						Nom :
-						<input type="text" :placeholder="profil.name" />
-					</div>
-				</div>
 
-				<div v-else>Nom : {{ profil.name }}</div>
+				<div>Nom : {{ profil.name }}</div>
 				<p>Email : {{ profil.email }}</p>
 				<p>
 					Inscrit depuis le :
@@ -30,10 +24,7 @@
 				class="profil action"
 				v-if="profilID == profil.id || isAdmin == 1"
 			>
-				<div v-if="modif" v-on:click="updateProfil()" class="lien">
-					<i class="fas fa-paper-plane"></i>Envoyer les modifications
-				</div>
-				<div v-else class="lien" v-on:click="edit()">
+				<div class="lien" v-on:click="editProfil(profil.id)">
 					<i class="fas fa-edit"></i>Modifier le profil
 				</div>
 				<a v-on:click="deleteProfil()"
@@ -202,8 +193,8 @@ export default {
 				console.log(error);
 			}
 		},
-		edit(id) {
-			this.idPublicationToModify = id;
+		editProfil(id) {
+			this.$router.push("/profil/edit/" + id);
 		},
 		updateProfil() {
 			console.log("CLIC MODIFIER PROFIL");
