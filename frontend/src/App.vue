@@ -136,7 +136,7 @@ a:visited {
 h3 {
 	margin: 10px 0px;
 }
-.publication img {
+.imgPublication {
 	width: 90%;
 	height: 35%;
 	object-fit: cover;

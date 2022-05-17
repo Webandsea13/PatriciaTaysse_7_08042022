@@ -1,8 +1,7 @@
 <template>
 	<div class="home-section" v-if="profil">
-		<h2>Profil</h2>
-
 		<div class="container">
+			<h2>Profil</h2>
 			<div class="profil">
 				<img
 					v-if="profil.imageProfil"
@@ -14,13 +13,13 @@
 					<i class="fas fa-user-circle fa-6x"></i>
 				</div>
 				<div v-if="modif">
-					<p>
+					<div>
 						Nom :
 						<input type="text" :placeholder="profil.name" />
-					</p>
+					</div>
 				</div>
 
-				<p v-else>Nom : {{ profil.name }}</p>
+				<div v-else>Nom : {{ profil.name }}</div>
 				<p>Email : {{ profil.email }}</p>
 				<p>
 					Inscrit depuis le :
@@ -43,20 +42,35 @@
 			</div>
 		</div>
 
-		<h2>Publications</h2>
 		<div class="container">
+			<h2>Publications</h2>
+
 			<div
 				v-for="item in profilPublications"
 				v-bind:key="item.id"
 				class="publication"
 			>
-				<p>Publié par {{ profil.name }}</p>
-				<p>le {{ new Date(item.time).toLocaleString() }}</p>
-				m
+				<div class="publication-header">
+					<img
+						v-if="profil.imageProfil"
+						v-bind:src="profil.imageProfil"
+						alt=""
+						class="imgProfilMini"
+					/>
+
+					<p>Publié par {{ profil.name }}</p>
+					<br />
+					<p>le {{ new Date(item.time).toLocaleString() }}</p>
+				</div>
 				<textarea v-if="idPublicationToModify == item.id"></textarea>
 				<h3 v-else>{{ item.text }}</h3>
 
-				<img v-if="item.image" v-bind:src="item.image" alt="" />
+				<img
+					v-if="item.image"
+					v-bind:src="item.image"
+					alt=""
+					class="imgPublication"
+				/>
 				<div
 					class="profil action"
 					v-if="profilID == item.profil_id || isAdmin == 1"
@@ -106,11 +120,6 @@ export default {
 	methods: {
 		async getProfil(profilId) {
 			try {
-				//recupération isAdmin dans token LS
-				//const LS = localStorage.getItem("user");
-				//const user = JSON.parse(LS);
-				//this.profilID = currentUser.profilID;
-				//this.isAdmin = currentUser.isAdmin;
 				//recupération id en paramètres url
 				this.profilIDUrl = profilId;
 				console.log(" verification recupération id dans url");
@@ -130,8 +139,8 @@ export default {
 				console.log("JSON RES DU FETCH getProfil");
 				console.log(jsonRes);
 				this.profil = jsonRes.results;
-				this.user = jsonRes.dToken;
-				this.profilID = this.currentUser.profilID;
+
+				this.profilID = this.currentUser.id;
 				this.isAdmin = this.currentUser.isAdmin;
 			} catch (error) {
 				console.log(error);
@@ -140,9 +149,6 @@ export default {
 
 		async getProfilPublications(profilId) {
 			try {
-				//const LS = localStorage.getItem("user");
-				//const user = JSON.parse(LS);
-				//this.profilID = currentUser.profilID;
 				const LStoken = localStorage.getItem("token");
 
 				const token = JSON.parse(LStoken);
@@ -208,6 +214,9 @@ export default {
 </script>
 
 <style>
+p {
+	display: inline;
+}
 .imgProfil {
 	width: 100px;
 	height: 100px;
