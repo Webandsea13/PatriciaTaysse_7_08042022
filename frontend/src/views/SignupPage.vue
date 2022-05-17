@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<div class="register-section">
-			<form class="register-form">
+			<form class="register-form" v-on:submit.prevent="signup()">
 				<input
 					type="text"
 					class="register-input"
@@ -39,14 +39,11 @@
 					required
 					v-model="profil.password"
 				/>
+				<button type="submit" class="btn register-btn">
+					<span>S'inscrire</span>
+				</button>
 			</form>
-			<button
-				type="submit"
-				class="btn register-btn"
-				v-on:click="signup()"
-			>
-				<span>S'inscrire</span>
-			</button>
+
 			<router-link to="/login"
 				>Déjà inscrit ? Connectez-vous !</router-link
 			>

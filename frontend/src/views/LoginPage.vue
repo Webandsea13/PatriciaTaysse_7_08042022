@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<div class="register-section">
-			<form class="register-form">
+			<form class="register-form" v-on:submit.prevent="login()">
 				<input
 					type="email"
 					class="register-input"
@@ -32,10 +32,11 @@
 					required
 					v-model="profil.password"
 				/>
+				<button type="submit" class="btn register-btn">
+					<span>Se connecter</span>
+				</button>
 			</form>
-			<button type="submit" class="btn register-btn" v-on:click="login()">
-				<span>Se connecter</span>
-			</button>
+
 			<router-link to="/signup">
 				Pas encore inscrit ? Rejoignez Groupomania !
 			</router-link>
