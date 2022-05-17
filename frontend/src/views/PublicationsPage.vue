@@ -1,6 +1,6 @@
 <template>
 	<div class="home-section">
-		<h1>Bienvenue {{ user.name }}</h1>
+		<h1>Bienvenue {{ currentUser.name }}</h1>
 		<p>{{ currentUser }}</p>
 		<div class="container">
 			<form
@@ -92,7 +92,7 @@ export default {
 			content: "",
 			newPubli: { content: "", picture: "", profil_id: "" },
 			sNewPubli: "",
-			user: "",
+
 			profilID: "",
 			isAdmin: "",
 		};
@@ -109,15 +109,9 @@ export default {
 				console.log("PUBLICATIONS SUR PUBLICATIONSPAGE");
 				this.datas = fetch.results;
 				console.log(this.datas);
-				console.log("TOKEN DECODE");
-				this.user = fetch.dToken;
-				console.log(this.user);
-				//const LS = localStorage.getItem("user");
-				//const user = JSON.parse(LS);
-				this.profilID = this.user.profilID;
-				this.isAdmin = this.user.isAdmin;
-				console.log("RECUPERATION CURRENT USER");
-				console.log(this.currentUser);
+
+				this.profilID = this.currentUser.id;
+				this.isAdmin = this.currentUser.isAdmin;
 			} catch (error) {
 				console.log(error);
 			}
