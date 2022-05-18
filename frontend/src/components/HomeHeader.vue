@@ -18,11 +18,11 @@
 			</router-link>
 			<router-link v-if="this.profil_id" :to="'/profil/' + profil_id">
 				<i class="fas fa-user"></i>
-				Voir mon profil
+				Mon profil
 			</router-link>
 			<router-link to="/users">
 				<i class="fas fa-users"></i>
-				Voir les autres utilisateurs
+				Les collègues
 			</router-link>
 		</nav>
 	</div>
@@ -70,7 +70,6 @@ export default {
 }
 nav {
 	display: flex;
-	flex-direction: column;
 }
 @media screen and (max-width: 767px) {
 	#home-logo {

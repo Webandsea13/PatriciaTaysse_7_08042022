@@ -17,7 +17,7 @@
 					autofocus
 				></textarea>
 				<div>
-					<label for="url">Ajouter une image:</label>
+					<label for="new-publication-url">Ajouter une image:</label>
 
 					<br />
 					<input
@@ -33,7 +33,10 @@
 				</button>
 			</form>
 		</div>
-		<PublicationsList :currentUser="currentUser"></PublicationsList>
+		<PublicationsList
+			:currentUser="currentUser"
+			ref="publicationsList"
+		></PublicationsList>
 	</div>
 </template>
 
@@ -99,7 +102,10 @@ export default {
 				await fetchPostNewPublication(formData);
 
 				//réafficher les publications avec la newPublication
-				await this.getAllPublications();
+				//await this.getAllPublications();
+				//this.$router.push("/publications");
+
+				this.$refs.publicationsList.getAllPublications();
 			} catch (error) {
 				console.log(error);
 			}
@@ -109,6 +115,9 @@ export default {
 </script>
 
 <style>
+h1 {
+	text-align: center;
+}
 .publication-header {
 	display: flex;
 	align-items: center;
