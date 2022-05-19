@@ -5,7 +5,7 @@
 		<div class="container">
 			<h2>Profil</h2>
 			<div class="profil">
-				<form action="">
+				<form action="" v-on:submit.prevent="updateProfil">
 					<div>
 						<img
 							v-if="profil.imageProfil"
@@ -18,27 +18,38 @@
 							<i class="fas fa-user-circle fa-6x"></i>
 						</div>
 					</div>
-					<div v-if="profil.imageProfil == null">
-						<label for="new-publication-url"
-							>Ajouter une image:</label
-						>
+					<div>
+						<label for="new-profil-url">Changer l'image:</label>
 
 						<br />
 						<input
-							id="new-publication-url"
+							id="new-profil-url"
 							name="image"
 							type="file"
 							accept="image/*"
-							v-on:change="getURL($event)"
+							v-on:change="editURL($event)"
 						/>
 					</div>
 
 					<div>
-						<div>Nom :<input :placeholder="profil.name" /></div>
-						<div>Email : <input :placeholder="profil.email" /></div>
+						<div>
+							Nom :<input
+								v-model="profil.name"
+								:placeholder="profil.name"
+								v-on:change="editName($event)"
+							/>
+						</div>
+						<div>
+							Email :
+							<input
+								v-model="profil.email"
+								:placeholder="profil.email"
+								v-on:change="editEmail($event)"
+							/>
+						</div>
 						<div>
 							Inscrit depuis le :
-							{{ new Date(profil.time).toLocaleString() }}
+							{{ new Date(profil.time).toLocaleDateString() }}
 						</div>
 					</div>
 
@@ -52,13 +63,15 @@
 </template>
 
 <script>
+//import { fetchGetProfil } from "../api/profil";
+//import { fetchPutNewProfil } from "../api/profil";
 export default {
 	name: "EditProfilPage",
 	props: ["currentUser"],
 	data() {
 		return {
 			profil: {},
-			seeImageProfil: true,
+			newImageProfil: "",
 		};
 	},
 	async created() {
@@ -90,6 +103,55 @@ export default {
 
 				//this.profilID = this.currentUser.id;
 				//this.isAdmin = this.currentUser.isAdmin;
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		//récupérer url image
+		editURL(e) {
+			this.newImageProfil = e.target.files[0];
+			console.log("RECUPERATION URL IMAGE");
+			console.log(this.newImageProfil);
+		},
+
+		editName(e) {
+			this.profil.name = e.target.value;
+			console.log("RECUPERATION nouveau name");
+			console.log(this.profil.name);
+		},
+		editEmail(e) {
+			this.profil.email = e.target.value;
+			console.log("RECUPERATION nouveau email");
+			console.log(this.profil.email);
+		},
+		async updateProfil() {
+			try {
+				const profilToSend = {
+					name: this.profil.name,
+					email: this.profil.email,
+				};
+				const sProfil = JSON.stringify(profilToSend);
+				let formData = new FormData();
+				formData.append("profil", sProfil);
+				if (this.newImageProfil) {
+					formData.append("imageProfil", this.newImageProfil);
+				}
+				const LStoken = localStorage.getItem("token");
+				const token = JSON.parse(LStoken);
+				const res = await fetch(
+					"http://localhost:3000/api/profil/" + this.profilIDUrl,
+					{
+						method: "PUT",
+						body: formData,
+						headers: {
+							Authorization: "Bearer " + token,
+						},
+					}
+				);
+				const jsonRes = await res.json();
+				console.log("JSON RES DU FETCH updateProfil");
+				console.log(jsonRes);
+				this.$router.push("/profil/" + this.profilIDUrl);
 			} catch (error) {
 				console.log(error);
 			}

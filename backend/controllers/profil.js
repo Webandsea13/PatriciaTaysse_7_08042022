@@ -121,6 +121,74 @@ exports.deleteProfil = async (req, res) => {
 
 exports.updateProfil = async (req, res) => {
 	console.log("UPDTATE PROFIL");
+
+	try {
+		const results = await dbconnection
+			.promise()
+			.query(`SELECT * FROM profil WHERE id=?`, req.params.id);
+		console.log("RECUPERATION PROFIL AVANT MODIFICATION");
+		const dataArray = results[0];
+		const data = dataArray[0];
+		if (data.id == req.dToken.profilID || req.dToken.isAdmin == 1) {
+			console.log("AUTH REUSSI");
+			/* pour enlever image profil si changement
+				if (data.imageProfil != null) {
+					const filename = data.imageProfil.split("/images/")[1];
+					fs.unlink(`images/${filename}`, (error) => {
+						if (error) {
+							console.log("UNLINK IMPOSSIBLE");
+							console.log(error);
+						} else {
+							console.log("UNLINK EFFECTUE");
+						}
+					});
+				}*/
+
+			console.log("req.file", req.file);
+			const newProfil = JSON.parse(req.body.profil);
+			console.log("profil parsé  ", newProfil);
+
+			const profil_id = req.dToken.profilID;
+			if (req.file) {
+				/*
+				const newProfil = {
+					...profil,
+					imageProfil: `${req.protocol}://${req.get("host")}/images/${
+						req.file.filename
+					}`,
+				};*/
+				console.log("il y a un req.file");
+			} else {
+				console.log("pas de req.file");
+				const newEmail = newProfil.email;
+				const newName = newProfil.name;
+				//modifier le profil
+				dbconnection.query(
+					`UPDATE profil  SET email='${newEmail}' ,  name='${newName}'  WHERE id=?`,
+					req.params.id,
+					(error, results) => {
+						if (error) {
+							res.status(500).json({
+								message: "Impossible de modifier les données.",
+								error: error,
+							});
+						} else {
+							res.status(200).json({
+								message: "données profil modifiées",
+							});
+						}
+					}
+				);
+			}
+		} else {
+			throw "requete non autorisée !!!";
+		}
+	} catch (error) {
+		res.status(400).json({
+			message: "impossible de trouver les données à modifier.",
+			error: error,
+		});
+	}
 };
 
 exports.signup = (req, res) => {

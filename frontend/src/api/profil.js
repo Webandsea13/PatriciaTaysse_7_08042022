@@ -12,7 +12,11 @@ export const getCurrentProfil = async function () {
 	const jsonResponse = await response.json();
 	return jsonResponse;
 };
-
+/*
+export const fetchGetProfil = async function (profilId) {
+	
+};
+*/
 export const fetchSignup = async function (profil) {
 	const response = await fetch("http://localhost:3000/api/signup", {
 		method: "POST",
