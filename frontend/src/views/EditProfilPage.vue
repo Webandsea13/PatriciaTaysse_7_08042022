@@ -63,7 +63,7 @@
 </template>
 
 <script>
-//import { fetchGetProfil } from "../api/profil";
+import { fetchGetProfil } from "../api/profil";
 //import { fetchPutNewProfil } from "../api/profil";
 export default {
 	name: "EditProfilPage",
@@ -84,20 +84,9 @@ export default {
 				this.profilIDUrl = profilId;
 				console.log(" verification recupération id dans url");
 				console.log(this.profilIDUrl);
+				const id = this.profilIDUrl;
+				const jsonRes = await fetchGetProfil(id);
 
-				const LStoken = localStorage.getItem("token");
-				const token = JSON.parse(LStoken);
-				const res = await fetch(
-					"http://localhost:3000/api/profil/" + this.profilIDUrl,
-					{
-						headers: {
-							Authorization: "Bearer " + token,
-						},
-					}
-				);
-				const jsonRes = await res.json();
-				console.log("JSON RES DU FETCH getProfil");
-				console.log(jsonRes);
 				this.profil = jsonRes.results;
 				console.log(this.profil);
 
