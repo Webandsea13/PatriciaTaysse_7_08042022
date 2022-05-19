@@ -12,11 +12,21 @@ export const getCurrentProfil = async function () {
 	const jsonResponse = await response.json();
 	return jsonResponse;
 };
-/*
+
 export const fetchGetProfil = async function (profilId) {
-	
+	const LStoken = localStorage.getItem("token");
+	const token = JSON.parse(LStoken);
+	const res = await fetch("http://localhost:3000/api/profil/" + profilId, {
+		headers: {
+			Authorization: "Bearer " + token,
+		},
+	});
+	const jsonRes = await res.json();
+	console.log("JSON RES DU FETCH getProfil");
+	console.log(jsonRes);
+	return jsonRes;
 };
-*/
+
 export const fetchSignup = async function (profil) {
 	const response = await fetch("http://localhost:3000/api/signup", {
 		method: "POST",

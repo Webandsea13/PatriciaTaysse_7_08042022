@@ -14,6 +14,24 @@ export const fetchAllPublications = async function () {
 	return jsonRes;
 };
 
+export const fetchAllProfilPublications = async function (id) {
+	const LStoken = localStorage.getItem("token");
+
+	const token = JSON.parse(LStoken);
+
+	const res = await fetch("http://localhost:3000/api/publication/" + id, {
+		headers: {
+			accept: "application/json",
+			"content-type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+	});
+	const jsonRes = await res.json();
+	console.log("JSON RES DU FETCH getProfilPublication");
+	console.log(jsonRes);
+	return jsonRes;
+};
+
 export const fetchPostNewPublication = async function (data) {
 	const LStoken = localStorage.getItem("token");
 	const token = JSON.parse(LStoken);

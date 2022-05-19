@@ -86,6 +86,8 @@
 <script>
 import { fetchDeletePublication } from "../api/publication";
 import { fetchDeleteProfil } from "../api/publication";
+import { fetchGetProfil } from "../api/profil";
+import { fetchAllProfilPublications } from "../api/publication";
 
 export default {
 	name: "ProfilPage",
@@ -119,20 +121,9 @@ export default {
 				this.profilIDUrl = profilId;
 				console.log(" verification recupération id dans url");
 				console.log(this.profilIDUrl);
-				// ATTENTION !!! remplacer la récupération de user localStorage par user dToken
-				const LStoken = localStorage.getItem("token");
-				const token = JSON.parse(LStoken);
-				const res = await fetch(
-					"http://localhost:3000/api/profil/" + this.profilIDUrl,
-					{
-						headers: {
-							Authorization: "Bearer " + token,
-						},
-					}
-				);
-				const jsonRes = await res.json();
-				console.log("JSON RES DU FETCH getProfil");
-				console.log(jsonRes);
+
+				const id = this.profilIDUrl;
+				const jsonRes = await fetchGetProfil(id);
 				this.profil = jsonRes.results;
 
 				this.profilID = this.currentUser.id;
@@ -144,26 +135,13 @@ export default {
 
 		async getProfilPublications(profilId) {
 			try {
-				const LStoken = localStorage.getItem("token");
-
-				const token = JSON.parse(LStoken);
-
-				//recupération id en paramètres url
 				this.profilIDUrl = profilId;
+				console.log(" verification recupération id dans url");
+				console.log(this.profilIDUrl);
 
-				const res = await fetch(
-					"http://localhost:3000/api/publication/" + this.profilIDUrl,
-					{
-						headers: {
-							accept: "application/json",
-							"content-type": "application/json",
-							Authorization: "Bearer " + token,
-						},
-					}
-				);
-				const jsonRes = await res.json();
-				console.log("JSON RES DU FETCH getProfilPublication");
-				console.log(jsonRes);
+				const id = this.profilIDUrl;
+				const jsonRes = await fetchAllProfilPublications(id);
+
 				this.profilPublications = jsonRes.results;
 			} catch (error) {
 				console.log(error);
