@@ -3,22 +3,26 @@
 		<div class="container">
 			<h2>Profil</h2>
 			<div class="profil">
-				<img
-					v-if="profil.imageProfil"
-					v-bind:src="profil.imageProfil"
-					alt=""
-					class="imgProfil"
-				/>
-				<div v-else>
-					<i class="fas fa-user-circle fa-6x"></i>
+				<div>
+					<img
+						v-if="profil.imageProfil"
+						v-bind:src="profil.imageProfil"
+						alt=""
+						class="imgProfil"
+					/>
+					<div v-else>
+						<i class="fas fa-user-circle fa-6x"></i>
+					</div>
 				</div>
 
-				<div>Nom : {{ profil.name }}</div>
-				<p>Email : {{ profil.email }}</p>
-				<p>
-					Inscrit depuis le :
-					{{ new Date(profil.time).toLocaleString() }}
-				</p>
+				<div>
+					<div>Nom : {{ profil.name }}</div>
+					<div>Email : {{ profil.email }}</div>
+					<div>
+						Inscrit depuis le :
+						{{ new Date(profil.time).toLocaleDateString() }}
+					</div>
+				</div>
 			</div>
 			<div
 				class="profil action"

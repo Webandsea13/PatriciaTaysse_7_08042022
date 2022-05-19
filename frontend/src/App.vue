@@ -94,9 +94,10 @@ a {
 	margin: 5px;
 	text-decoration: none;
 	font-weight: bold;
+	cursor: pointer;
 }
 a:hover {
-	color: #e66465;
+	color: rgb(253, 45, 1);
 }
 a:visited {
 	text-decoration: none;
@@ -108,9 +109,10 @@ a:visited {
 	margin: 5px;
 	text-decoration: none;
 	font-weight: bold;
+	cursor: pointer;
 }
 .lien:hover {
-	color: #e66465;
+	color: rgb(253, 45, 1);
 }
 .lien:visited {
 	text-decoration: none;

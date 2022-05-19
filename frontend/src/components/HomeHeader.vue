@@ -3,27 +3,27 @@
 		<div class="home-header-logo">
 			<img
 				id="home-logo"
-				src="../assets/icon-left-font-monochrome-black.png"
+				src="../assets/icon-left-font.png"
 				alt="logo groupomania"
 			/>
 		</div>
 		<nav>
-			<div v-if="currentUser"></div>
-			<a v-on:click="deconnect()">
-				<i class="fas fa-door-open"></i>Se déconnecter
-			</a>
 			<router-link to="/publications">
 				<i class="fas fa-home"></i>
-				Accueil
+				<p class="lien">Accueil</p>
 			</router-link>
 			<router-link v-if="this.profil_id" :to="'/profil/' + profil_id">
 				<i class="fas fa-user"></i>
-				Mon profil
+				<p class="lien">Mon profil</p>
 			</router-link>
 			<router-link to="/users">
 				<i class="fas fa-users"></i>
-				Les collègues
+				<p class="lien">les collègues</p>
 			</router-link>
+			<div v-if="currentUser"></div>
+			<a class="lien" v-on:click="deconnect()">
+				<i class="fas fa-door-open"></i>Se déconnecter
+			</a>
 		</nav>
 	</div>
 </template>

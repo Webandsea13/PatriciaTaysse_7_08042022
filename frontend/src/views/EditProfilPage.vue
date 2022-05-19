@@ -6,16 +6,17 @@
 			<h2>Profil</h2>
 			<div class="profil">
 				<form action="">
-					<div v-if="seeImageProfil">
+					<div>
 						<img
 							v-if="profil.imageProfil"
 							v-bind:src="profil.imageProfil"
 							alt=""
 							class="imgProfil"
 						/>
-					</div>
-					<div v-else>
-						<i class="fas fa-user-circle fa-6x"></i>
+
+						<div v-else>
+							<i class="fas fa-user-circle fa-6x"></i>
+						</div>
 					</div>
 					<div v-if="profil.imageProfil == null">
 						<label for="new-publication-url"
@@ -31,16 +32,16 @@
 							v-on:change="getURL($event)"
 						/>
 					</div>
-					<div v-else class="lien" v-on:click="sansImage()">
-						<i class="fas fa-trash-alt"></i>Supprimer image
+
+					<div>
+						<div>Nom :<input :placeholder="profil.name" /></div>
+						<div>Email : <input :placeholder="profil.email" /></div>
+						<div>
+							Inscrit depuis le :
+							{{ new Date(profil.time).toLocaleString() }}
+						</div>
 					</div>
 
-					<div>Nom :<input :placeholder="profil.name" /></div>
-					<p>Email : <input :placeholder="profil.email" /></p>
-					<p>
-						Inscrit depuis le :
-						{{ new Date(profil.time).toLocaleString() }}
-					</p>
 					<button type="submit" class="btn">
 						<span>valider les modifications</span>
 					</button>
@@ -92,10 +93,6 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
-		},
-		sansImage() {
-			console.log("clic sans image");
-			this.seeImageProfil == false;
 		},
 	},
 };
