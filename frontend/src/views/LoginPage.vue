@@ -53,6 +53,13 @@ export default {
 			profil: { email: "", password: "" },
 		};
 	},
+	created() {
+		const LS = localStorage.getItem("token");
+		const token = JSON.parse(LS);
+		if (token) {
+			this.$router.push("/publications");
+		}
+	},
 	methods: {
 		async login() {
 			try {
