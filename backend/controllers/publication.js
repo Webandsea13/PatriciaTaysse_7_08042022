@@ -88,6 +88,10 @@ exports.readProfilPublication = async (req, res) => {
 	}
 };
 
+exports.readOnePublication = async (req, res) => {
+	console.log("REQ read one publication");
+};
+
 exports.deletePublication = async (req, res) => {
 	try {
 		const results = await dbconnection

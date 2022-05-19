@@ -57,8 +57,8 @@
 					<br />
 					<p>le {{ new Date(item.time).toLocaleString() }}</p>
 				</div>
-				<textarea v-if="idPublicationToModify == item.id"></textarea>
-				<h3 v-else>{{ item.text }}</h3>
+
+				<h3>{{ item.text }}</h3>
 
 				<img
 					v-if="item.image"
@@ -70,10 +70,10 @@
 					class="profil action"
 					v-if="profilID == item.profil_id || isAdmin == 1"
 				>
-					<div class="lien" v-on:click="edit(item.id)">
+					<div class="lien" v-on:click="editPublication(item.id)">
 						<i class="fas fa-edit"></i>Modifier la publication
 					</div>
-					<div v-if="modif">Bonjour la modif</div>
+
 					<p class="lien" v-on:click="deletePublication(item.id)">
 						<i class="fas fa-trash-alt"></i>Supprimer la publication
 					</p>
@@ -178,9 +178,9 @@ export default {
 		editProfil(id) {
 			this.$router.push("/profil/edit/" + id);
 		},
-		updateProfil() {
-			console.log("CLIC MODIFIER PROFIL");
-			this.modif = !this.modif;
+		editPublication(id) {
+			console.log("CLIC MODIFIER PUBLICATION");
+			this.$router.push("/publication/edit/" + id);
 		},
 	},
 };

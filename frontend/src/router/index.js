@@ -8,6 +8,7 @@ import Publications from "../views/PublicationsPage";
 import Profil from "../views/ProfilPage";
 import Users from "../views/UsersPage";
 import EditProfil from "../views/EditProfilPage";
+import EditPublication from "../views/EditPublicationPage";
 
 /**
 
@@ -74,6 +75,11 @@ const routes = [
 				path: "/profil/edit/:id",
 				name: "EditProfilPage",
 				component: EditProfil,
+			},
+			{
+				path: "/publication/edit/:id",
+				name: "EditPublicationPage",
+				component: EditPublication,
 			},
 		],
 	},

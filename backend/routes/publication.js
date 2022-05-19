@@ -14,6 +14,8 @@ router.get("/", authorize, publicationControllers.readAllPublication);
 
 router.get("/:id", publicationControllers.readProfilPublication);
 
+router.get("/one/:id", publicationControllers.readOnePublication);
+
 router.delete(
 	"/:id",
 
