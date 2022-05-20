@@ -38,10 +38,17 @@
 				class="profil action"
 				v-if="item.creatorId == profilID || isAdmin == 1"
 			>
-				<a><i class="fas fa-edit"></i>Modifier la publication</a>
-				<a v-on:click="deletePublication(item.publicationId)"
-					><i class="fas fa-trash-alt"></i>Supprimer la publication</a
+				<router-link :to="'/publication/edit/' + item.publicationId"
+					><i class="fas fa-edit"></i>Modifier la
+					publication</router-link
 				>
+
+				<div
+					class="lien"
+					v-on:click="deletePublication(item.publicationId)"
+				>
+					<i class="fas fa-trash-alt"></i>Supprimer la publication
+				</div>
 			</div>
 		</div>
 	</div>

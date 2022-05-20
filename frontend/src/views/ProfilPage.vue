@@ -49,9 +49,12 @@
 					<img
 						v-if="profil.imageProfil"
 						v-bind:src="profil.imageProfil"
-						alt=""
+						alt="image profil"
 						class="imgProfilMini"
 					/>
+					<div v-else>
+						<i class="fas fa-user-circle fa-2x"></i>
+					</div>
 
 					<p>Publié par {{ profil.name }}</p>
 					<br />
@@ -63,7 +66,7 @@
 				<img
 					v-if="item.image"
 					v-bind:src="item.image"
-					alt=""
+					alt="image publication"
 					class="imgPublication"
 				/>
 				<div

@@ -88,7 +88,22 @@ exports.readProfilPublication = async (req, res) => {
 	}
 };
 
-exports.readOnePublication = async (req, res) => {
+exports.readOnePublication = (req, res) => {
+	dbconnection.query(
+		`SELECT * FROM publication WHERE id=? `,
+		req.params.id,
+		(error, results) => {
+			if (error) {
+				console.log(error);
+				res.status(500).json({
+					message: "Impossible de récupérer les données.",
+					error: error,
+				});
+			} else {
+				res.status(200).json({ results: results });
+			}
+		}
+	);
 	console.log("REQ read one publication");
 };
 
@@ -149,4 +164,86 @@ exports.deletePublication = async (req, res) => {
 
 exports.updatePublication = async (req, res) => {
 	console.log("UPDTATE PUBLICATION");
+	try {
+		const results = await dbconnection
+			.promise()
+			.query(
+				`SELECT profil_id FROM publication WHERE id=?`,
+				req.params.id
+			);
+		console.log("RECUPERATION profil_id publication AVANT MODIFICATION");
+
+		const dataArray = results[0];
+		const data = dataArray[0];
+		if (data.profil_id == req.dToken.profilID || req.dToken.isAdmin == 1) {
+			console.log("AUTH REUSSI");
+			/* pour enlever image profil si changement
+				if (data.imageProfil != null) {
+					const filename = data.imageProfil.split("/images/")[1];
+					fs.unlink(`images/${filename}`, (error) => {
+						if (error) {
+							console.log("UNLINK IMPOSSIBLE");
+							console.log(error);
+						} else {
+							console.log("UNLINK EFFECTUE");
+						}
+					});
+				}*/
+
+			console.log("req.file", req.file);
+			const newPublication = JSON.parse(req.body.publication);
+			console.log("publication parsée ", newPublication);
+
+			if (req.file) {
+				const newImagePublication = `${req.protocol}://${req.get(
+					"host"
+				)}/images/${req.file.filename}`;
+				const newText = newPublication.text;
+
+				dbconnection.query(
+					`UPDATE publication  SET text='${newText}' ,   image='${newImagePublication}' WHERE id=?`,
+					req.params.id,
+					(error, results) => {
+						if (error) {
+							res.status(500).json({
+								message: "Impossible de modifier les données.",
+								error: error,
+							});
+						} else {
+							res.status(200).json({
+								message: "données publication modifiées",
+							});
+						}
+					}
+				);
+			} else {
+				console.log("pas de req.file");
+				const newText = newPublication.text;
+				//modifier le profil
+				dbconnection.query(
+					`UPDATE publication  SET text='${newText}'   WHERE id=?`,
+					req.params.id,
+					(error, results) => {
+						if (error) {
+							res.status(500).json({
+								message: "Impossible de modifier les données.",
+								error: error,
+							});
+						} else {
+							res.status(200).json({
+								message: "données publication modifiées",
+							});
+						}
+					}
+				);
+			}
+		} else {
+			throw "requete non autorisée !!!";
+		}
+	} catch (error) {
+		res.status(400).json({
+			message: "impossible de trouver les données à modifier.",
+			error: error,
+		});
+	}
 };

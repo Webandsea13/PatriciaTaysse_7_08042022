@@ -89,9 +89,6 @@ export default {
 
 				this.profil = jsonRes.results;
 				console.log(this.profil);
-
-				//this.profilID = this.currentUser.id;
-				//this.isAdmin = this.currentUser.isAdmin;
 			} catch (error) {
 				console.log(error);
 			}
