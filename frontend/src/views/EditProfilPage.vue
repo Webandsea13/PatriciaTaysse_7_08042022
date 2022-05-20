@@ -123,7 +123,7 @@ export default {
 				let formData = new FormData();
 				formData.append("profil", sProfil);
 				if (this.newImageProfil) {
-					formData.append("imageProfil", this.newImageProfil);
+					formData.append("image", this.newImageProfil);
 				}
 				const LStoken = localStorage.getItem("token");
 				const token = JSON.parse(LStoken);

@@ -150,14 +150,27 @@ exports.updateProfil = async (req, res) => {
 
 			const profil_id = req.dToken.profilID;
 			if (req.file) {
-				/*
-				const newProfil = {
-					...profil,
-					imageProfil: `${req.protocol}://${req.get("host")}/images/${
-						req.file.filename
-					}`,
-				};*/
-				console.log("il y a un req.file");
+				const newImageProfil = `${req.protocol}://${req.get(
+					"host"
+				)}/images/${req.file.filename}`;
+				const newEmail = newProfil.email;
+				const newName = newProfil.name;
+				dbconnection.query(
+					`UPDATE profil  SET email='${newEmail}' ,  name='${newName}', imageProfil='${newImageProfil}' WHERE id=?`,
+					req.params.id,
+					(error, results) => {
+						if (error) {
+							res.status(500).json({
+								message: "Impossible de modifier les données.",
+								error: error,
+							});
+						} else {
+							res.status(200).json({
+								message: "données profil modifiées",
+							});
+						}
+					}
+				);
 			} else {
 				console.log("pas de req.file");
 				const newEmail = newProfil.email;
