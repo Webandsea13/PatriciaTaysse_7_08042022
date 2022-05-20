@@ -16,10 +16,10 @@
 				</div>
 
 				<div>
-					<div>Nom : {{ profil.name }}</div>
-					<div>Email : {{ profil.email }}</div>
+					<h3>{{ profil.name }}</h3>
+
 					<div>
-						Inscrit depuis le :
+						Inscrit depuis le
 						{{ new Date(profil.time).toLocaleDateString() }}
 					</div>
 				</div>
@@ -56,7 +56,10 @@
 						<i class="fas fa-user-circle fa-2x"></i>
 					</div>
 
-					<p>Publié par {{ profil.name }}</p>
+					<p>Publié par</p>
+					<h3>
+						{{ profil.name }}
+					</h3>
 					<br />
 					<p>le {{ new Date(item.time).toLocaleString() }}</p>
 				</div>
@@ -192,6 +195,8 @@ export default {
 <style>
 p {
 	display: inline;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 .imgProfil {
 	width: 100px;

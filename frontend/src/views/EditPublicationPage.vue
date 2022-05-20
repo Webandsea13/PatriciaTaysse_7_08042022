@@ -26,6 +26,7 @@
 					<div>
 						Changer le texte <br />
 						<input
+							class="edit-input"
 							v-model="publication.text"
 							:placeholder="publication.text"
 							v-on:change="editText($event)"

@@ -153,10 +153,10 @@ exports.updateProfil = async (req, res) => {
 				const newImageProfil = `${req.protocol}://${req.get(
 					"host"
 				)}/images/${req.file.filename}`;
-				const newEmail = newProfil.email;
+
 				const newName = newProfil.name;
 				dbconnection.query(
-					`UPDATE profil  SET email='${newEmail}' ,  name='${newName}', imageProfil='${newImageProfil}' WHERE id=?`,
+					`UPDATE profil  SET   name='${newName}', imageProfil='${newImageProfil}' WHERE id=?`,
 					req.params.id,
 					(error, results) => {
 						if (error) {
@@ -173,11 +173,11 @@ exports.updateProfil = async (req, res) => {
 				);
 			} else {
 				console.log("pas de req.file");
-				const newEmail = newProfil.email;
+
 				const newName = newProfil.name;
 				//modifier le profil
 				dbconnection.query(
-					`UPDATE profil  SET email='${newEmail}' ,  name='${newName}'  WHERE id=?`,
+					`UPDATE profil  SET   name='${newName}'  WHERE id=?`,
 					req.params.id,
 					(error, results) => {
 						if (error) {

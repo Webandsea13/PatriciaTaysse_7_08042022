@@ -6,49 +6,45 @@
 			<h2>Profil</h2>
 			<div class="profil">
 				<form action="" v-on:submit.prevent="updateProfil">
-					<div>
-						<img
-							v-if="profil.imageProfil"
-							v-bind:src="profil.imageProfil"
-							alt=""
-							class="imgProfil"
-						/>
+					<div class="edit">
+						<div>
+							<img
+								v-if="profil.imageProfil"
+								v-bind:src="profil.imageProfil"
+								alt=""
+								class="imgProfil"
+							/>
 
-						<div v-else>
-							<i class="fas fa-user-circle fa-6x"></i>
+							<div v-else>
+								<i class="fas fa-user-circle fa-6x"></i>
+							</div>
 						</div>
-					</div>
-					<div>
-						<label for="new-profil-url">Changer l'image:</label>
+						<div>
+							<label for="new-profil-url">Changer l'image</label>
 
-						<br />
-						<input
-							id="new-profil-url"
-							name="image"
-							type="file"
-							accept="image/*"
-							v-on:change="editURL($event)"
-						/>
+							<br />
+							<input
+								id="new-profil-url"
+								name="image"
+								type="file"
+								accept="image/*"
+								v-on:change="editURL($event)"
+							/>
+						</div>
 					</div>
 
 					<div>
 						<div>
-							Nom :<input
+							Changer le nom<input
+								class="edit-input"
 								v-model="profil.name"
 								:placeholder="profil.name"
 								v-on:change="editName($event)"
 							/>
 						</div>
+
 						<div>
-							Email :
-							<input
-								v-model="profil.email"
-								:placeholder="profil.email"
-								v-on:change="editEmail($event)"
-							/>
-						</div>
-						<div>
-							Inscrit depuis le :
+							Inscrit depuis le
 							{{ new Date(profil.time).toLocaleDateString() }}
 						</div>
 					</div>
@@ -105,16 +101,11 @@ export default {
 			console.log("RECUPERATION nouveau name");
 			console.log(this.profil.name);
 		},
-		editEmail(e) {
-			this.profil.email = e.target.value;
-			console.log("RECUPERATION nouveau email");
-			console.log(this.profil.email);
-		},
+
 		async updateProfil() {
 			try {
 				const profilToSend = {
 					name: this.profil.name,
-					email: this.profil.email,
 				};
 				const sProfil = JSON.stringify(profilToSend);
 				let formData = new FormData();
@@ -146,4 +137,20 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.edit {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.edit-input {
+	padding: 10px;
+	margin: 20px;
+	outline: none;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-bottom: 1px solid grey;
+	background-color: #fff9f8;
+}
+</style>

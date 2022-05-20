@@ -17,7 +17,7 @@
 					autofocus
 				></textarea>
 				<div>
-					<label for="new-publication-url">Ajouter une image:</label>
+					<label for="new-publication-url">Ajoutez une image !</label>
 
 					<br />
 					<input
@@ -131,6 +131,9 @@ h1 {
 	font-family: "Oxygen", sans-serif;
 	resize: none;
 	background-color: #fff9f8;
+	outline: none;
+	padding: 10px;
+	margin: 10px;
 }
 .imgProfilMini {
 	width: 30px;

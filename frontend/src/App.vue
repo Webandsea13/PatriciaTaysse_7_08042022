@@ -77,12 +77,17 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	cursor: pointer;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .register-btn {
 	height: 40px;
 	width: 200px;
 	margin-top: 40px;
 	margin-bottom: 40px;
+}
+span {
+	font-weight: bold;
 }
 
 .btn:hover {
