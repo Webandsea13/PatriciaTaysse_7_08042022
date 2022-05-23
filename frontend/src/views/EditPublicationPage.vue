@@ -136,6 +136,7 @@ export default {
 				const jsonRes = await res.json();
 				console.log("JSON RES DU FETCH updatePublication");
 				console.log(jsonRes);
+				this.$router.push("/publications");
 				//this.$router.push("/profil/" + this.currentUser.id);
 			} catch (error) {
 				console.log(error);

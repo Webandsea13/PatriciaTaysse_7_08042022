@@ -177,9 +177,15 @@ exports.updatePublication = async (req, res) => {
 		const data = dataArray[0];
 		if (data.profil_id == req.dToken.profilID || req.dToken.isAdmin == 1) {
 			console.log("AUTH REUSSI");
-			/* pour enlever image profil si changement
-				if (data.imageProfil != null) {
-					const filename = data.imageProfil.split("/images/")[1];
+
+			console.log("req.file", req.file);
+			const newPublication = JSON.parse(req.body.publication);
+			console.log("publication parsée ", newPublication);
+
+			if (req.file) {
+				//gestion ancienne image si elle existe
+				if (data.image != null) {
+					const filename = data.image.split("/images/")[1];
 					fs.unlink(`images/${filename}`, (error) => {
 						if (error) {
 							console.log("UNLINK IMPOSSIBLE");
@@ -188,13 +194,9 @@ exports.updatePublication = async (req, res) => {
 							console.log("UNLINK EFFECTUE");
 						}
 					});
-				}*/
+				}
 
-			console.log("req.file", req.file);
-			const newPublication = JSON.parse(req.body.publication);
-			console.log("publication parsée ", newPublication);
-
-			if (req.file) {
+				//gestion nouvelle image
 				const newImagePublication = `${req.protocol}://${req.get(
 					"host"
 				)}/images/${req.file.filename}`;

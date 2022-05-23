@@ -131,7 +131,14 @@ exports.updateProfil = async (req, res) => {
 		const data = dataArray[0];
 		if (data.id == req.dToken.profilID || req.dToken.isAdmin == 1) {
 			console.log("AUTH REUSSI");
-			/* pour enlever image profil si changement
+
+			console.log("req.file", req.file);
+			const newProfil = JSON.parse(req.body.profil);
+			console.log("profil parsé  ", newProfil);
+
+			const profil_id = req.dToken.profilID;
+			if (req.file) {
+				//pour enlever image profil si changement
 				if (data.imageProfil != null) {
 					const filename = data.imageProfil.split("/images/")[1];
 					fs.unlink(`images/${filename}`, (error) => {
@@ -142,14 +149,8 @@ exports.updateProfil = async (req, res) => {
 							console.log("UNLINK EFFECTUE");
 						}
 					});
-				}*/
-
-			console.log("req.file", req.file);
-			const newProfil = JSON.parse(req.body.profil);
-			console.log("profil parsé  ", newProfil);
-
-			const profil_id = req.dToken.profilID;
-			if (req.file) {
+				}
+				//ajout de la nouvelle image
 				const newImageProfil = `${req.protocol}://${req.get(
 					"host"
 				)}/images/${req.file.filename}`;

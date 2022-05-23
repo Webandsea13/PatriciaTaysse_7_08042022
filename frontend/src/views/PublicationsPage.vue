@@ -7,7 +7,7 @@
 				class="new-publication-form"
 				v-on:submit.prevent="newPublication"
 			>
-				<h2>Quoi de neuf?</h2>
+				<h2>Quoi de neuf ?</h2>
 				<textarea
 					type="textarea"
 					class="new-publication-input"
