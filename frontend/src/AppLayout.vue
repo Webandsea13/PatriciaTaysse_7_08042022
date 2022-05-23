@@ -41,6 +41,7 @@ export default {
 				//console.log("CREATION CURRENT USER ");
 				//console.log(this.currentUser);
 			} catch (error) {
+				this.currentUser = null;
 				console.log(error);
 			}
 		},

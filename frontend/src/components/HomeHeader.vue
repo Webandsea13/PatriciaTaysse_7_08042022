@@ -20,7 +20,6 @@
 				<i class="fas fa-users"></i>
 				<p class="lien">les collègues</p>
 			</router-link>
-			<div v-if="currentUser"></div>
 			<a class="lien" v-on:click="deconnect()">
 				<i class="fas fa-door-open"></i>Se déconnecter
 			</a>
