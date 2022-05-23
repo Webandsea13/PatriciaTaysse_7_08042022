@@ -163,6 +163,7 @@ export default {
 				if (this.isAdmin == 1) {
 					this.$router.push("/publications");
 				} else {
+					localStorage.removeItem("token");
 					this.$router.push("/signup");
 				}
 			} catch (error) {

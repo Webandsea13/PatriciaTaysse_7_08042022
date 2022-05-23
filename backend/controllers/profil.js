@@ -1,5 +1,4 @@
-//importation bcrypt
-//const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
@@ -206,107 +205,116 @@ exports.updateProfil = async (req, res) => {
 };
 
 exports.signup = (req, res) => {
-	const profil = {
-		email: req.body.email,
-		name: req.body.name,
-		password: req.body.password,
-	};
-	//enregistrer le nouveau profil dans la db
-	dbconnection.query(`INSERT INTO profil SET ?`, profil, (error, results) => {
-		if (error) {
-			res.status(500).json({
-				error: error,
-				message: "Impossible de créer le profil.",
-			});
-		} else {
-			dbconnection.query(
-				`SELECT * FROM profil WHERE email=?`,
-				profil.email,
-				(error, results) => {
-					if (error) {
-						res.status(500).json({
-							error: error,
-							message: "accès db impossible",
-						});
-					} else {
-						const token = jwt.sign(
-							{
-								profilID: results[0].id,
-								isAdmin: results[0].isAdmin,
-								name: results[0].name,
-								imageProfil: results[0].imageProfil,
-							},
-							process.env.JWT_KEY,
-							{ expiresIn: "12h" }
-						);
-						res.status(201).json({
-							token: token,
-							//profilID: results[0].id,
-							//isAdmin: results[0].isAdmin,
-						});
-					}
+	console.log("VERIF SIGNUP");
+	bcrypt.hash(req.body.password, 10).then((hash) => {
+		const hashPassword = hash;
+
+		const profil = {
+			email: req.body.email,
+			name: req.body.name,
+			password: hashPassword,
+		};
+		console.log(profil);
+		//enregistrer le nouveau profil dans la db
+		dbconnection.query(
+			`INSERT INTO profil SET ?`,
+			profil,
+			(error, results) => {
+				if (error) {
+					res.status(500).json({
+						error: error,
+						message: "Impossible de créer le profil.",
+					});
+				} else {
+					dbconnection.query(
+						`SELECT * FROM profil WHERE email=?`,
+						profil.email,
+						(error, results) => {
+							if (error) {
+								res.status(500).json({
+									error: error,
+									message: "accès db impossible",
+								});
+							} else {
+								const token = jwt.sign(
+									{
+										profilID: results[0].id,
+										isAdmin: results[0].isAdmin,
+										name: results[0].name,
+										imageProfil: results[0].imageProfil,
+									},
+									process.env.JWT_KEY,
+									{ expiresIn: "12h" }
+								);
+								res.status(201).json({
+									token: token,
+								});
+							}
+						}
+					);
 				}
-			);
-		}
+			}
+		);
 	});
 };
 
-//fonction signup pour enregistrer un nouvel utilisateur
-
-// exports.signup = (req, res) => {
-// 	bcrypt
-// 		.hash(req.body.password, 10)
-// 		.then((hash) => {
-// 			const user = new User({
-// 				email: req.body.email,
-// 				password: hash,
-// 			});
-
 exports.login = (req, res) => {
-	const email = req.body.email;
-	//rechercher email dans db
-	dbconnection.query(
-		"SELECT * FROM profil WHERE email=?",
-		email,
-		(error, results) => {
-			if (error) {
-				res.status(500).json({
-					error: error,
-					message: "accès db impossible",
-				});
-			} else {
-				console.log(results);
-
-				//si results est un tableau vide (le profil n'existe pas)
-				if (results == 0) {
-					return res
-						.status(404)
-						.json({ message: "profil inexistant" });
-				}
-				//comparaison  mot de passe DB et mot de passe login
-				if (results[0].password == req.body.password) {
-					const token = jwt.sign(
-						{
-							profilID: results[0].id,
-							isAdmin: results[0].isAdmin,
-							name: results[0].name,
-							imageProfil: results[0].imageProfil,
-						},
-						process.env.JWT_KEY,
-						{ expiresIn: "12h" }
-					);
-
-					res.status(200).json({
-						token: token,
-						//profilID: results[0].id,
-						//isAdmin: results[0].isAdmin,
+	try {
+		const email = req.body.email;
+		//rechercher email dans db
+		dbconnection.query(
+			"SELECT * FROM profil WHERE email=?",
+			email,
+			(error, results) => {
+				if (error) {
+					res.status(500).json({
+						error: error,
+						message: "accès db impossible",
 					});
 				} else {
-					res.status(401).json({ message: "mot de passe incorrect" });
+					console.log(results);
+
+					//si results est un tableau vide (le profil n'existe pas)
+					if (results == 0) {
+						return res
+							.status(404)
+							.json({ message: "profil inexistant" });
+					}
+					//comparaison  mot de passe DB et mot de passe login
+					bcrypt
+						.compare(req.body.password, results[0].password)
+						.then((valid) => {
+							//mot de passe incorrect
+							if (!valid) {
+								return res.status(401).json({
+									error: "Le mot de passe est incorrect.",
+								});
+							} else {
+								const token = jwt.sign(
+									{
+										profilID: results[0].id,
+										isAdmin: results[0].isAdmin,
+										name: results[0].name,
+										imageProfil: results[0].imageProfil,
+									},
+									process.env.JWT_KEY,
+									{ expiresIn: "12h" }
+								);
+
+								res.status(200).json({
+									token: token,
+									//profilID: results[0].id,
+									//isAdmin: results[0].isAdmin,
+								});
+							}
+						});
 				}
 			}
-		}
-	);
+		);
+	} catch (error) {
+		res.status(401).json({ message: "problème de connexion" });
+		console.log(error);
+	}
 };
 
 // exports.login = async (req, res, next) => {
