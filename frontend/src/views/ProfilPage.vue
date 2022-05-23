@@ -203,6 +203,7 @@ p {
 	width: 100px;
 	height: 100px;
 	border-radius: 100px;
+	object-fit: cover;
 }
 .profil {
 	display: flex;

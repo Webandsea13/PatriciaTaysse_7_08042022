@@ -1,7 +1,5 @@
 <template>
 	<div class="home-section">
-		<div>{{ profil }}</div>
-		<div>{{ currentUser }}</div>
 		<div class="container">
 			<h2>Profil</h2>
 			<div class="profil">

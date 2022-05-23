@@ -1,7 +1,5 @@
 <template>
 	<div class="home-section">
-		<div>{{ publication }}</div>
-		<div>{{ currentUser }}</div>
 		<div class="container">
 			<h2>Publication</h2>
 			<div class="publication">
@@ -25,8 +23,10 @@
 					</div>
 					<div>
 						Changer le texte <br />
-						<input
-							class="edit-input"
+						<textarea
+							type="textarea"
+							autofocus
+							class="new-publication-input"
 							v-model="publication.text"
 							:placeholder="publication.text"
 							v-on:change="editText($event)"

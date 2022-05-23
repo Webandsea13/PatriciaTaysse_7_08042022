@@ -139,6 +139,7 @@ h1 {
 	width: 30px;
 	height: 30px;
 	border-radius: 30px;
+	object-fit: cover;
 }
 @media screen and (max-width: 767px) {
 }

@@ -100,6 +100,7 @@ a {
 	text-decoration: none;
 	font-weight: bold;
 	cursor: pointer;
+	color: black;
 }
 a:hover {
 	color: rgb(253, 45, 1);
