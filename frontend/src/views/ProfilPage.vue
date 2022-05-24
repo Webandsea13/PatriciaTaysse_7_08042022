@@ -91,7 +91,7 @@
 
 <script>
 import { fetchDeletePublication } from "../api/publication";
-import { fetchDeleteProfil } from "../api/publication";
+import { fetchDeleteProfil } from "../api/profil";
 import { fetchGetProfil } from "../api/profil";
 import { fetchAllProfilPublications } from "../api/publication";
 
@@ -125,8 +125,6 @@ export default {
 			try {
 				//recupération id en paramètres url
 				this.profilIDUrl = profilId;
-				console.log(" verification recupération id dans url");
-				console.log(this.profilIDUrl);
 
 				const id = this.profilIDUrl;
 				const jsonRes = await fetchGetProfil(id);
@@ -142,8 +140,6 @@ export default {
 		async getProfilPublications(profilId) {
 			try {
 				this.profilIDUrl = profilId;
-				console.log(" verification recupération id dans url");
-				console.log(this.profilIDUrl);
 
 				const id = this.profilIDUrl;
 				const jsonRes = await fetchAllProfilPublications(id);
@@ -173,9 +169,7 @@ export default {
 		async deletePublication(id) {
 			try {
 				const fetch = await fetchDeletePublication(id);
-				console.log("RESPONSE FETCH DELETE");
 				console.log(fetch);
-
 				//réafficher les publications sans la publication supprimée
 				await this.getProfilPublications(this.$route.params.id);
 			} catch (error) {
@@ -186,7 +180,6 @@ export default {
 			this.$router.push("/profil/edit/" + id);
 		},
 		editPublication(id) {
-			console.log("CLIC MODIFIER PUBLICATION");
 			this.$router.push("/publication/edit/" + id);
 		},
 	},

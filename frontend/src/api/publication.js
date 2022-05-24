@@ -27,8 +27,8 @@ export const fetchAllProfilPublications = async function (id) {
 		},
 	});
 	const jsonRes = await res.json();
-	console.log("JSON RES DU FETCH getProfilPublication");
-	console.log(jsonRes);
+	//console.log("JSON RES DU FETCH getProfilPublication");
+	//console.log(jsonRes);
 	return jsonRes;
 };
 
@@ -43,8 +43,8 @@ export const fetchOnePublication = async function (id) {
 		},
 	});
 	const jsonRes = await res.json();
-	console.log("JSON RES DU FETCH getOnePublication");
-	console.log(jsonRes);
+	//console.log("JSON RES DU FETCH getOnePublication");
+	//console.log(jsonRes);
 
 	return jsonRes;
 };

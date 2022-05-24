@@ -6,7 +6,7 @@
 				<img
 					v-if="item.avatar"
 					v-bind:src="item.avatar"
-					alt=""
+					alt="photo profil"
 					class="imgProfilMini"
 				/>
 				<div v-else>
@@ -75,9 +75,8 @@ export default {
 		async getAllPublications() {
 			try {
 				const fetch = await fetchAllPublications();
-				console.log("PUBLICATIONS SUR PUBLICATIONSPAGE");
+
 				this.datas = fetch.results;
-				console.log(this.datas);
 
 				this.profilID = this.currentUser.id;
 				this.isAdmin = this.currentUser.isAdmin;

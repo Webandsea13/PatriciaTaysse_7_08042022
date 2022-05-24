@@ -2,9 +2,9 @@ const dbconnection = require("../db/db");
 const fs = require("fs");
 
 exports.createPublication = (req, res) => {
-	console.log("req.body", req.body);
-	console.log("req.file", req.file);
-	console.log("req.dToken", req.dToken);
+	//console.log("req.body", req.body);
+	//console.log("req.file", req.file);
+	//console.log("req.dToken", req.dToken);
 
 	const publication = JSON.parse(req.body.publication);
 	const profil_id = req.dToken.profilID;
@@ -16,8 +16,6 @@ exports.createPublication = (req, res) => {
 			: null,
 		profil_id: profil_id,
 	};
-	console.log("NEW PUBLICATION");
-	console.log(newPublication);
 
 	//enregistrer la nouvelle publication dans la db
 	dbconnection.query(
@@ -69,7 +67,6 @@ exports.readAllPublication = (req, res) => {
 };
 
 exports.readProfilPublication = async (req, res) => {
-	//console.log("REQUETE PROFIL PUBLICATION");
 	try {
 		const results = await dbconnection
 			.promise()
@@ -104,7 +101,6 @@ exports.readOnePublication = (req, res) => {
 			}
 		}
 	);
-	console.log("REQ read one publication");
 };
 
 exports.deletePublication = async (req, res) => {
@@ -119,9 +115,9 @@ exports.deletePublication = async (req, res) => {
 		//console.log(results[0]);
 		const dataArray = results[0];
 		const data = dataArray[0];
-		console.log(data);
+		//console.log(data);
 		if (data.profil_id == req.dToken.profilID || req.dToken.isAdmin == 1) {
-			console.log("REUSSI");
+			//console.log("REUSSI");
 			if (data.image != null) {
 				const filename = data.image.split("/images/")[1];
 				fs.unlink(`images/${filename}`, (error) => {
@@ -163,7 +159,6 @@ exports.deletePublication = async (req, res) => {
 };
 
 exports.updatePublication = async (req, res) => {
-	console.log("UPDTATE PUBLICATION");
 	try {
 		const results = await dbconnection
 			.promise()
@@ -171,16 +166,14 @@ exports.updatePublication = async (req, res) => {
 				`SELECT profil_id FROM publication WHERE id=?`,
 				req.params.id
 			);
-		console.log("RECUPERATION profil_id publication AVANT MODIFICATION");
 
 		const dataArray = results[0];
 		const data = dataArray[0];
 		if (data.profil_id == req.dToken.profilID || req.dToken.isAdmin == 1) {
 			console.log("AUTH REUSSI");
 
-			console.log("req.file", req.file);
+			//On parse pour envoyer dans formData
 			const newPublication = JSON.parse(req.body.publication);
-			console.log("publication parsée ", newPublication);
 
 			if (req.file) {
 				//gestion ancienne image si elle existe
@@ -219,7 +212,7 @@ exports.updatePublication = async (req, res) => {
 					}
 				);
 			} else {
-				console.log("pas de req.file");
+				//console.log("pas de req.file");
 				const newText = newPublication.text;
 				//modifier le profil
 				dbconnection.query(

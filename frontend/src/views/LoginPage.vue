@@ -64,7 +64,7 @@ export default {
 		async login() {
 			try {
 				const jsonResponse = await fetchLogin(this.profil);
-				console.log(jsonResponse);
+
 				const token = jsonResponse.token;
 
 				localStorage.setItem("token", JSON.stringify(token));

@@ -14,6 +14,7 @@
 			</router-link>
 			<router-link v-if="this.profil_id" :to="'/profil/' + profil_id">
 				<i class="fas fa-user"></i>
+
 				<p class="lien">Mon profil</p>
 			</router-link>
 			<router-link to="/users">
@@ -69,7 +70,10 @@ export default {
 }
 nav {
 	display: flex;
+
+	align-items: center;
 }
+
 @media screen and (max-width: 767px) {
 	#home-logo {
 		height: 60px;

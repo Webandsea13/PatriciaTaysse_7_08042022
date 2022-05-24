@@ -32,7 +32,6 @@ exports.getCurrentProfil = (req, res, next) => {
 };
 
 exports.readAllProfil = (req, res, next) => {
-	console.log("requete get profils");
 	dbconnection.query(`SELECT * FROM profil`, (error, results) => {
 		if (error) {
 			res.status(500).json({
@@ -42,14 +41,12 @@ exports.readAllProfil = (req, res, next) => {
 		} else {
 			const dToken = req.dToken;
 			res.status(200).json({ results: results, dToken: dToken });
-			console.log(results);
+			//console.log(results);
 		}
 	});
 };
 
 exports.readOneProfil = (req, res) => {
-	//console.log("controller requete get OneProfil");
-
 	dbconnection.query(
 		`SELECT * FROM profil WHERE id=?`,
 		req.params.id,
@@ -119,8 +116,6 @@ exports.deleteProfil = async (req, res) => {
 };
 
 exports.updateProfil = async (req, res) => {
-	console.log("UPDTATE PROFIL");
-
 	try {
 		const results = await dbconnection
 			.promise()
@@ -131,9 +126,9 @@ exports.updateProfil = async (req, res) => {
 		if (data.id == req.dToken.profilID || req.dToken.isAdmin == 1) {
 			console.log("AUTH REUSSI");
 
-			console.log("req.file", req.file);
+			//console.log("req.file", req.file);
 			const newProfil = JSON.parse(req.body.profil);
-			console.log("profil parsé  ", newProfil);
+			//console.log("profil parsé  ", newProfil);
 
 			const profil_id = req.dToken.profilID;
 			if (req.file) {
@@ -172,7 +167,7 @@ exports.updateProfil = async (req, res) => {
 					}
 				);
 			} else {
-				console.log("pas de req.file");
+				//console.log("pas de req.file");
 
 				const newName = newProfil.name;
 				//modifier le profil
@@ -205,7 +200,6 @@ exports.updateProfil = async (req, res) => {
 };
 
 exports.signup = (req, res) => {
-	console.log("VERIF SIGNUP");
 	bcrypt.hash(req.body.password, 10).then((hash) => {
 		const hashPassword = hash;
 
@@ -214,7 +208,7 @@ exports.signup = (req, res) => {
 			name: req.body.name,
 			password: hashPassword,
 		};
-		console.log(profil);
+
 		//enregistrer le nouveau profil dans la db
 		dbconnection.query(
 			`INSERT INTO profil SET ?`,
@@ -305,8 +299,6 @@ exports.login = (req, res) => {
 
 						res.status(200).json({
 							token: token,
-							//profilID: results[0].id,
-							//isAdmin: results[0].isAdmin,
 						});
 					});
 			}
@@ -316,35 +308,3 @@ exports.login = (req, res) => {
 		console.log(error);
 	}
 };
-
-// exports.login = async (req, res, next) => {
-// 	try {
-// 		//chercher si utilisateur bien présent dans base de données
-// 		const user = await User.findOne({ email: req.body.email });
-// 		if (!user) {
-// 			return res.status(401).json({
-// 				error: "Vous devez d'abord vous inscrire pour vous connecter.",
-// 			});
-// 		}
-
-// 		//controler validité du password
-// 		const valid = await bcrypt.compare(req.body.password, user.password);
-// 		//mot de passe incorrect
-// 		if (!valid) {
-// 			return res.status(401).json({
-// 				error: "Le mot de passe est incorrect.",
-// 			});
-// 		}
-// 		//utilsateur présent et password correct : envoi dans la réponse du userId et du token
-// 		return res.status(200).json({
-// 			userId: user._id,
-// 			token: jwt.sign({ userId: user._id }, `${process.env.KEY_TOKEN}`, {
-// 				expiresIn: "10h",
-// 			}),
-// 		});
-// 	} catch {
-// 		(error) => {
-// 			return res.status(500).json({ error });
-// 		};
-// 	}
-// };

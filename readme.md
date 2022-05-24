@@ -1,12 +1,17 @@
-GROUPOMANIA
+# GROUPOMANIA
 
-Backend
-Dependancies used in this project :
+## Database
+
+The database can be recreated with the Dump file StartScript.sql
+
+## Backend
+
+Dependencies used in this project :
 
 -   NodeJS
 -   express
 
-To run the server : npm run start
+### To run the server : npm run start
 
 Backend environmental variables :
 The backend file .env provides these environmental variables :
@@ -17,8 +22,10 @@ The backend file .env provides these environmental variables :
 -   BD_NAME
 -   JWT_KEY
 
-Frontend
+## Frontend
+
 The client side version uses : - vue CLI
-To run the client server : npm run serve
+
+### To run the client server : npm run serve
 
 If error, navigate to http://localhost:8080

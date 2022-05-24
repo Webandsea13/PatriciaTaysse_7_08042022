@@ -1,6 +1,6 @@
 <template>
 	<div class="home-section">
-		<h1>Bienvenue {{ currentUser.name }}</h1>
+		<h1 v-if="currentUser">Bienvenue {{ currentUser.name }}</h1>
 
 		<div class="container">
 			<form
@@ -67,9 +67,8 @@ export default {
 		async getAllPublications() {
 			try {
 				const fetch = await fetchAllPublications();
-				console.log("PUBLICATIONS SUR PUBLICATIONSPAGE");
+
 				this.datas = fetch.results;
-				console.log(this.datas);
 
 				this.profilID = this.currentUser.id;
 				this.isAdmin = this.currentUser.isAdmin;
@@ -81,8 +80,6 @@ export default {
 		//récupérer url image
 		getURL(e) {
 			this.newPubli.picture = e.target.files[0];
-			console.log("RECUPERATION URL IMAGE");
-			console.log(this.newPubli.picture);
 		},
 
 		async newPublication() {
@@ -90,8 +87,7 @@ export default {
 				const publicationToSend = {
 					content: this.newPubli.content,
 				};
-				console.log("PUBLICATION TO SEND");
-				console.log(publicationToSend);
+
 				let sNewPubli = JSON.stringify(publicationToSend);
 				let formData = new FormData();
 				formData.append("publication", sNewPubli);
@@ -101,10 +97,7 @@ export default {
 
 				await fetchPostNewPublication(formData);
 
-				//réafficher les publications avec la newPublication
-				//await this.getAllPublications();
-				//this.$router.push("/publications");
-
+				//réafficher le component PublicationList avec la newPublication
 				this.$refs.publicationsList.getAllPublications();
 			} catch (error) {
 				console.log(error);

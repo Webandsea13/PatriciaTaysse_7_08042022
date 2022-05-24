@@ -76,13 +76,11 @@ export default {
 			try {
 				//recupération id en paramètres url
 				this.profilIDUrl = profilId;
-				console.log(" verification recupération id dans url");
-				console.log(this.profilIDUrl);
+
 				const id = this.profilIDUrl;
 				const jsonRes = await fetchGetProfil(id);
 
 				this.profil = jsonRes.results;
-				console.log(this.profil);
 			} catch (error) {
 				console.log(error);
 			}
@@ -90,14 +88,10 @@ export default {
 		//récupérer url image
 		editURL(e) {
 			this.newImageProfil = e.target.files[0];
-			console.log("RECUPERATION URL IMAGE");
-			console.log(this.newImageProfil);
 		},
 
 		editName(e) {
 			this.profil.name = e.target.value;
-			console.log("RECUPERATION nouveau name");
-			console.log(this.profil.name);
 		},
 
 		async updateProfil() {

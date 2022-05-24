@@ -101,13 +101,9 @@ export default {
 		//récupérer url image
 		editURL(e) {
 			this.newImagePublication = e.target.files[0];
-			console.log("RECUPERATION URL IMAGE");
-			console.log(this.newImagePublication);
 		},
 		editText(e) {
 			this.publication.text = e.target.value;
-			console.log("RECUPERATION nouveau text");
-			console.log(this.publication.text);
 		},
 		async updatePublication() {
 			try {
@@ -136,8 +132,8 @@ export default {
 				const jsonRes = await res.json();
 				console.log("JSON RES DU FETCH updatePublication");
 				console.log(jsonRes);
+
 				this.$router.push("/publications");
-				//this.$router.push("/profil/" + this.currentUser.id);
 			} catch (error) {
 				console.log(error);
 			}

@@ -53,8 +53,7 @@ export default {
 					},
 				});
 				const jsonRes = await res.json();
-				console.log("JSON RES DU FETCH");
-				console.log(jsonRes);
+
 				this.users = jsonRes.results;
 				this.user = jsonRes.dToken;
 			} catch (error) {

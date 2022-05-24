@@ -22,9 +22,26 @@ export const fetchGetProfil = async function (profilId) {
 		},
 	});
 	const jsonRes = await res.json();
-	console.log("JSON RES DU FETCH getProfil");
-	console.log(jsonRes);
+	//console.log("JSON RES DU FETCH getProfil");
+	//console.log(jsonRes);
 	return jsonRes;
+};
+
+export const fetchDeleteProfil = async function (id) {
+	const LS = localStorage.getItem("token");
+
+	const token = JSON.parse(LS);
+
+	const response = await fetch("http://localhost:3000/api/profil/" + id, {
+		method: "DELETE",
+		headers: {
+			"content-type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+	});
+
+	const jsonResponse = await response.json();
+	return jsonResponse;
 };
 
 export const fetchSignup = async function (profil) {
