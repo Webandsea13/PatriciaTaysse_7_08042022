@@ -6,6 +6,7 @@
 			<form
 				class="new-publication-form"
 				v-on:submit.prevent="newPublication"
+				name="formPublication"
 			>
 				<h2>Quoi de neuf ?</h2>
 				<textarea
@@ -99,6 +100,8 @@ export default {
 
 				//réafficher le component PublicationList avec la newPublication
 				this.$refs.publicationsList.getAllPublications();
+				//réinitialiser le formulaire
+				document.formPublication.reset();
 			} catch (error) {
 				console.log(error);
 			}
