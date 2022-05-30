@@ -26,7 +26,7 @@
 					autofocus
 				/>
 				<input
-					type="text"
+					type="password"
 					class="register-input"
 					placeholder="mot de passe"
 					required

@@ -33,7 +33,7 @@
 					v-model="profil.email"
 				/>
 				<input
-					type="text"
+					type="password"
 					class="register-input"
 					placeholder="mot de passe"
 					required
